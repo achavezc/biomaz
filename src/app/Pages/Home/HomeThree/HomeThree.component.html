@@ -1,8 +1,9 @@
 <embryo-HomePageThreeSlider [isRTL]="embryoService.isDirectionRtl"></embryo-HomePageThreeSlider>
-<embryo-CtaTwo></embryo-CtaTwo>
-<embryo-CollectionGallery></embryo-CollectionGallery>
+<app-ProductsList></app-ProductsList>
+<!-- <embryo-CtaTwo></embryo-CtaTwo> -->
+<!-- <embryo-CollectionGallery></embryo-CollectionGallery> -->
 
-<div class="section-gap grey-bg">
+<!-- <div class="section-gap grey-bg">
    <div class="container">
          <div class="block-title mb-5"> <h3 class="font-light">Shop By Category</h3></div>
          <div fxLayout="row wrap" class="col-gap category-v2-wrapper" *ngIf="categories && (categories.clothing.length>0 && categories.shoes.length>0 && categories.accessories.length>0 && categories.gadgets.length)">
@@ -16,11 +17,12 @@
              [productCategory]="categories.gadgets[0]" [totalProducts]="categories.gadgets.length"></embryo-ProductCategoryCard>
          </div> 
    </div>
-</div>
+</div> -->
 
+<!-- 
 <div class="shop-card-wrapper section-gap pt-0 pb-5 grid-card-wrapper tab-sldier-v2" *ngIf="products">
   
-    <mat-toolbar style="height:270px;background-color:#000" class="section-title-toolbar grid-toolbar">
+     <mat-toolbar style="height:270px;background-color:#000" class="section-title-toolbar grid-toolbar">
       <mat-toolbar-row>
          <div class="container">
         <div class="w-100 mb-3">
@@ -39,8 +41,8 @@
       </div>
       </mat-toolbar-row>
     </mat-toolbar>
- 
-  <div class="container">
+
+   <div class="container">
     <ng-container *ngIf="onNewArrivalsSelectedTab(embryoService.newArrivalSelectedTab)">
       <ngx-slick-carousel *ngIf="embryoService.isDirectionRtl" class="carousel" [config]="rtlSlideConfig">
         <div ngxSlickItem *ngFor="let product of newProductsSliderData">
@@ -55,10 +57,12 @@
         </div>
       </ngx-slick-carousel>
     </ng-container>
-  </div>
-</div>
-<embryo-CTASingleBanner></embryo-CTASingleBanner>
-<div class="section-gap pt-0 shadow-disable">
+  </div> 
+</div> -->
+
+<!-- <embryo-CTASingleBanner></embryo-CTASingleBanner> -->
+
+<!-- <div class="section-gap pt-0 shadow-disable">
 <div class="container">
   <div  class="w-100">
    
@@ -66,10 +70,11 @@
   </div>
   <embryo-BrandsLogo [isRTL]="embryoService.isDirectionRtl"></embryo-BrandsLogo>
 </div>
-</div>
+</div> -->
 
-<embryo-SubscribeTwo></embryo-SubscribeTwo>
-<embryo-DownloadAppSection></embryo-DownloadAppSection>
+<!-- <embryo-SubscribeTwo></embryo-SubscribeTwo>
+<embryo-DownloadAppSection></embryo-DownloadAppSection> -->
+
 
 
 

@@ -2,6 +2,7 @@ import { BrowserModule} from '@angular/platform-browser';
 import { NgModule} from '@angular/core';
 import { HttpClientModule, HttpClient} from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { NgAisModule } from 'angular-instantsearch';
 import { FormsModule, ReactiveFormsModule }    from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, 
@@ -66,6 +67,8 @@ import { NotFoundComponent } from './Pages/NotFound/NotFound.component';
 import { SideBarMenuComponent } from './Layouts/Menu/SidebarMenu/SidebarMenu.component';
 import { PaymentDetailSideBarComponent } from './Layouts/PaymentDetailSideBar/PaymentDetailSideBar.component';
 import { FixedHeaderComponent } from './Layouts/Header/FixedHeader/FixedHeader.component';
+import { ProductListModule } from './Pages/Products/ProductsList/ProductList.module';
+//import { ProductsListComponent } from './Pages/Products/ProductsList/ProductsList.component';
 
 
 /********** Custom option for ngx-translate ******/
@@ -90,9 +93,11 @@ export function createTranslateLoader(http: HttpClient) {
     FooterTwoComponent,
     HomeThreeComponent,
     HeaderThreeComponent,
-    FixedHeaderComponent
+    FixedHeaderComponent,
+    //ProductsListComponent
   ],
   imports: [
+
     BrowserModule.withServerTransition({appId: 'embryo-seo-pre'}),
     BrowserAnimationsModule,
     RouterModule.forRoot(AppRoutes, {onSameUrlNavigation: 'reload'}),
@@ -140,7 +145,9 @@ export function createTranslateLoader(http: HttpClient) {
           deps: [HttpClient]
        }
     }),
-    SlickCarouselModule
+    SlickCarouselModule,
+    NgAisModule,
+    ProductListModule
   ],
    providers: [
       MenuItems,
