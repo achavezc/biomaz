@@ -14,10 +14,13 @@
           
           <div fxFlex.xs="100" fxFlex.sm="25" fxFlex.md="15" fxFlex.lg="15" fxFlex.xl="15" *ngFor="let menu of menuItems.getFooterOneMenu()">
             <div>
-              <p>{{menu.name | translate}}</p>
+              <!-- <p>{{menu.name | translate}}</p> -->
+              <p>{{menu.name}}</p>
               <mat-list class="list-sm" *ngFor="let subMenu of menu.children">
-                <mat-list-item *ngIf="subMenu.type == 'link'"><a [routerLink]="['/'+subMenu.state]" routerLinkActive="active-link"> {{subMenu.name | translate}}</a></mat-list-item>
-                <mat-list-item *ngIf="subMenu.type == 'social_link'"><a href="{{subMenu.state}}" target="_blank"> {{subMenu.name | translate}}</a></mat-list-item>
+                <!-- <mat-list-item *ngIf="subMenu.type == 'link'"><a [routerLink]="['/'+subMenu.state]" routerLinkActive="active-link"> {{subMenu.name | translate}}</a></mat-list-item> -->
+                <mat-list-item *ngIf="subMenu.type == 'link'"><a [routerLink]="['/'+subMenu.state]" routerLinkActive="active-link"> {{subMenu.name}}</a></mat-list-item>
+                <!-- <mat-list-item *ngIf="subMenu.type == 'social_link'"><a href="{{subMenu.state}}" target="_blank"> {{subMenu.name | translate}}</a></mat-list-item> -->
+                <mat-list-item *ngIf="subMenu.type == 'social_link'"><a href="{{subMenu.state}}" target="_blank"> {{subMenu.name}}</a></mat-list-item>
               </mat-list>
             </div>
           </div>

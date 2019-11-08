@@ -1,4 +1,6 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
+//import {Router, ActivatedRoute} from '@angular/router';
+import {CategoriaService} from '../../../Services/categoria.service';
 
 @Component({
   selector: 'embryo-HomePageThreeSlider',
@@ -6,11 +8,12 @@ import { Component, OnInit, Input, OnChanges } from '@angular/core';
   styleUrls: ['./HomePageThreeSlider.component.scss']
 })
 export class HomePageThreeSliderComponent implements OnInit, OnChanges {
+   public slides: any[] = [];
 
    @Input() isRTL : boolean = false;
 
    slideConfig : any;
-
+   /*
    slides : any = [
       {
          img         : "assets/images/h-slider-1.jpg",
@@ -31,10 +34,27 @@ export class HomePageThreeSliderComponent implements OnInit, OnChanges {
          
       }
    ]
+   */
 
-   constructor() { }
+   constructor(private CategoriaService: CategoriaService) { }
 
    ngOnInit() {
+
+      this.CategoriaService.get()
+      .subscribe(response => {
+          console.log(response);
+          response.map(aux => {
+            this.slides.push({
+               img: aux.ImagenBanner,
+               content: "",
+               heading_one: aux.Nombre
+            });
+         });
+        }, err => {
+          
+          console.error(err);
+        }
+      );
    }
 
    ngOnChanges() {

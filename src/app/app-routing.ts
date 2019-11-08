@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Routes} from '@angular/router';
 
 import { MainComponent } from './Main/Main.component';
-//import { HomeoneComponent } from './Pages/Home/HomeOne/HomeOne.component';
-//import { HomeTwoComponent } from './Pages/Home/HomeTwo/HomeTwo.component';
+import { HomeoneComponent } from './Pages/Home/HomeOne/HomeOne.component';
+import { HomeTwoComponent } from './Pages/Home/HomeTwo/HomeTwo.component';
 import { HomeThreeComponent } from './Pages/Home/HomeThree/HomeThree.component';
 import { CartComponent } from './Pages/Cart/Cart.component';
 import { NotFoundComponent } from './Pages/NotFound/NotFound.component';
@@ -12,14 +12,14 @@ import { NotFoundComponent } from './Pages/NotFound/NotFound.component';
 export const AppRoutes : Routes = [
    {
       path : '',
-      redirectTo: 'home-three',
+      redirectTo: 'home',
       pathMatch: 'full',
    }, {
       path : '',
       component : MainComponent,
       children: [ 
 
-         /*
+         
          {
             path : 'home',
             component : HomeoneComponent
@@ -28,7 +28,7 @@ export const AppRoutes : Routes = [
             path : 'home-two',
             component : HomeTwoComponent
          },
-         */
+         
          {
             path : 'home-three',
             component : HomeThreeComponent

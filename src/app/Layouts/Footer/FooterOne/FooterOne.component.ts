@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+//import { TranslateService } from '@ngx-translate/core';
 import { MenuItems } from '../../../Core/menu/menu-items/menu-items';
 
 @Component({
@@ -9,8 +9,8 @@ import { MenuItems } from '../../../Core/menu/menu-items/menu-items';
 })
 export class FooterOneComponent implements OnInit {
 
-   constructor(public menuItems : MenuItems,
-               public translate: TranslateService) { }
+   constructor(public menuItems : MenuItems
+    /*,public translate: TranslateService*/) { }
 
    ngOnInit() {
    }

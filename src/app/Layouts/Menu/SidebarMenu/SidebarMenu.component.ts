@@ -1,7 +1,7 @@
 import { Component, HostBinding, OnInit, Input} from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { TranslateService } from '@ngx-translate/core';
+//import { TranslateService } from '@ngx-translate/core';
 
 import { EmbryoService } from '../../../Services/Embryo.service';
 
@@ -27,8 +27,8 @@ export class SideBarMenuComponent implements OnInit {
    @HostBinding('attr.aria-expanded') ariaExpanded = this.expanded;
 
    constructor(public router: Router, 
-               public embryoService: EmbryoService, 
-               public translate: TranslateService) {
+               public embryoService: EmbryoService
+               /*,public translate: TranslateService*/) {
 
       if (this.depth === undefined) {
          this.depth = 0;

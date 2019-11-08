@@ -1,6 +1,6 @@
 import { BrowserModule} from '@angular/platform-browser';
 import { NgModule} from '@angular/core';
-import { HttpClientModule, HttpClient} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, /*HttpClient*/} from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { NgAisModule } from 'angular-instantsearch';
 import { FormsModule, ReactiveFormsModule }    from '@angular/forms';
@@ -38,9 +38,10 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { ToastaModule } from 'ngx-toasta';
 import { BidiModule } from '@angular/cdk/bidi';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+//import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+//import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
+import {Platform} from '@angular/cdk/platform';
 
 import { environment } from '../environments/environment';
 
@@ -59,7 +60,7 @@ import { HeaderThreeComponent } from './Layouts/Header/HeaderThree/HeaderThree.c
 import { FooterOneComponent } from './Layouts/Footer/FooterOne/FooterOne.component';
 import { FooterTwoComponent } from './Layouts/Footer/FooterTwo/FooterTwo.component';
 import { MenuComponent } from './Layouts/Menu/Menu/Menu.component';
-//import { HomeoneComponent } from './Pages/Home/HomeOne/HomeOne.component';
+import { HomeoneComponent } from './Pages/Home/HomeOne/HomeOne.component';
 import { HomeTwoComponent } from './Pages/Home/HomeTwo/HomeTwo.component';
 import { HomeThreeComponent } from './Pages/Home/HomeThree/HomeThree.component';
 import { CartComponent } from './Pages/Cart/Cart.component';
@@ -69,18 +70,23 @@ import { PaymentDetailSideBarComponent } from './Layouts/PaymentDetailSideBar/Pa
 import { FixedHeaderComponent } from './Layouts/Header/FixedHeader/FixedHeader.component';
 import { ProductListModule } from './Pages/Products/ProductsList/ProductList.module';
 //import { ProductsListComponent } from './Pages/Products/ProductsList/ProductsList.component';
+import {HttpInterceptorImpl} from './shared/http-interceptor-impl';
 
+import { CategoriaService } from './Services/categoria.service';
+import {SharedModule} from './shared/shared.module';
 
 /********** Custom option for ngx-translate ******/
+/*
 export function createTranslateLoader(http: HttpClient) {
    return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
+*/
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
-    //HomeoneComponent,
+    HomeoneComponent,
     HeaderOneComponent,
     FooterOneComponent,
     MenuComponent,
@@ -93,7 +99,7 @@ export function createTranslateLoader(http: HttpClient) {
     FooterTwoComponent,
     HomeThreeComponent,
     HeaderThreeComponent,
-    FixedHeaderComponent,
+    FixedHeaderComponent
     //ProductsListComponent
   ],
   imports: [
@@ -138,6 +144,7 @@ export function createTranslateLoader(http: HttpClient) {
     AngularFireDatabaseModule,
     ToastaModule.forRoot(),
     BidiModule,
+    /*
     TranslateModule.forRoot({
        loader: {
           provide: TranslateLoader,
@@ -145,13 +152,22 @@ export function createTranslateLoader(http: HttpClient) {
           deps: [HttpClient]
        }
     }),
+    */
     SlickCarouselModule,
     NgAisModule,
-    ProductListModule
+    ProductListModule,
+    SharedModule
   ],
    providers: [
       MenuItems,
-      EmbryoService
+      EmbryoService,
+      CategoriaService,
+      Platform,
+      {
+        provide: HTTP_INTERCEPTORS,
+        useClass: HttpInterceptorImpl,
+        multi: true
+      }
    ],
    bootstrap: [AppComponent]
 })

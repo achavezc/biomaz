@@ -7,7 +7,7 @@ import { EmbryoService } from '../Services/Embryo.service';
 import { MenuItems } from '../Core/menu/menu-items/menu-items';
 import { Directionality } from '@angular/cdk/bidi';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
-import { TranslateService } from '@ngx-translate/core';
+//import { TranslateService } from '@ngx-translate/core';
 import { Meta, Title } from "@angular/platform-browser";
 
 declare var $: any;
@@ -28,7 +28,7 @@ export class MainComponent implements OnInit {
                public embryoService : EmbryoService, 
                public menuItems: MenuItems,
                dir: Directionality,
-               public translate: TranslateService,
+               //public translate: TranslateService,
                private router: Router,
                meta: Meta, title: Title) { 
 
