@@ -15,7 +15,7 @@ export class HomeTwoComponent implements OnInit {
 
    ngOnInit() {
       this.lighteningDeals();
-      this.getProducts();
+      //this.getProducts();
    }
 
    public lighteningDeals() {

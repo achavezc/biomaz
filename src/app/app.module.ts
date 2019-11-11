@@ -5,31 +5,6 @@ import { RouterModule } from '@angular/router';
 import { NgAisModule } from 'angular-instantsearch';
 import { FormsModule, ReactiveFormsModule }    from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, 
-         MatCardModule, 
-         MatMenuModule, 
-         MatToolbarModule, 
-         MatIconModule, 
-         MatInputModule, 
-         MatDatepickerModule, 
-         MatNativeDateModule, 
-         MatProgressSpinnerModule,
-         MatTableModule, 
-         MatExpansionModule, 
-         MatSelectModule,
-         MatSnackBarModule, 
-         MatTooltipModule, 
-         MatChipsModule, 
-         MatListModule, 
-         MatSidenavModule, 
-         MatTabsModule, 
-         MatProgressBarModule,
-         MatCheckboxModule,
-         MatSliderModule,
-         MatRadioModule,
-         MatDialogModule,
-         MatGridListModule
-} from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
@@ -38,20 +13,14 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { ToastaModule } from 'ngx-toasta';
 import { BidiModule } from '@angular/cdk/bidi';
-//import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-//import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import {Platform} from '@angular/cdk/platform';
-
 import { environment } from '../environments/environment';
-
 import { AppRoutes } from './app-routing';
 import { GlobalModule } from './Global/Global.module';
 import { TemplatesModule } from './Templates/Templates.module';
 import { MenuItems } from './Core/menu/menu-items/menu-items';
-
 import { EmbryoService } from './Services/Embryo.service';
-
 import { AppComponent } from './app.component';
 import { MainComponent } from './Main/Main.component';
 import { HeaderOneComponent } from './Layouts/Header/HeaderOne/HeaderOne.component';
@@ -69,18 +38,109 @@ import { SideBarMenuComponent } from './Layouts/Menu/SidebarMenu/SidebarMenu.com
 import { PaymentDetailSideBarComponent } from './Layouts/PaymentDetailSideBar/PaymentDetailSideBar.component';
 import { FixedHeaderComponent } from './Layouts/Header/FixedHeader/FixedHeader.component';
 import { ProductListModule } from './Pages/Products/ProductsList/ProductList.module';
-//import { ProductsListComponent } from './Pages/Products/ProductsList/ProductsList.component';
 import {HttpInterceptorImpl} from './shared/http-interceptor-impl';
-
 import { CategoriaService } from './Services/categoria.service';
 import {SharedModule} from './shared/shared.module';
+import {CommonModule} from '@angular/common';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import {A11yModule} from '@angular/cdk/a11y';
+import {ObserversModule} from '@angular/cdk/observers';
+import {OverlayModule} from '@angular/cdk/overlay';
+import {PlatformModule} from '@angular/cdk/platform';
+import {PortalModule} from '@angular/cdk/portal';
+import {ScrollDispatchModule} from '@angular/cdk/scrolling';
+import {CdkStepperModule} from '@angular/cdk/stepper';
+import {CdkTableModule} from '@angular/cdk/table';
 
-/********** Custom option for ngx-translate ******/
-/*
-export function createTranslateLoader(http: HttpClient) {
-   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-}
-*/
+
+
+import {
+   MatButtonModule, 
+   MatCardModule, 
+   MatMenuModule, 
+   MatToolbarModule, 
+   MatIconModule, 
+   MatInputModule, 
+   MatDatepickerModule, 
+   MatNativeDateModule, 
+   MatProgressSpinnerModule,
+   MatTableModule, 
+   MatExpansionModule, 
+   MatSelectModule,
+   MatSnackBarModule, 
+   MatTooltipModule, 
+   MatChipsModule, 
+   MatListModule, 
+   MatSidenavModule, 
+   MatTabsModule, 
+   MatProgressBarModule,
+   MatCheckboxModule,
+   MatSliderModule,
+   MatRadioModule,
+   MatDialogModule,
+   MatGridListModule,
+   MatAutocompleteModule,
+   MatButtonToggleModule,
+   MatRippleModule,
+   MatSlideToggleModule,
+   MatStepperModule,
+   MatPaginatorModule,
+   MatSortModule,
+ } from '@angular/material';
+
+ /**
+ * NgModule that includes all Material modules that are required to serve 
+ * the Plunker.
+ */
+@NgModule({
+   exports: [
+     // CDK
+     A11yModule,
+     BidiModule,
+     ObserversModule,
+     OverlayModule,
+     PlatformModule,
+     PortalModule,
+     ScrollDispatchModule,
+     CdkStepperModule,
+     CdkTableModule,
+     
+     // Material
+     MatAutocompleteModule,
+     MatButtonModule,
+     MatButtonToggleModule,
+     MatCardModule,
+     MatCheckboxModule,
+     MatChipsModule,
+     MatDatepickerModule,
+     MatDialogModule,
+     MatExpansionModule,
+     MatGridListModule,
+     MatIconModule,
+     MatInputModule,
+     MatListModule,
+     MatMenuModule,
+     MatProgressBarModule,
+     MatProgressSpinnerModule,
+     MatRadioModule,
+     MatRippleModule,
+     MatSelectModule,
+     MatSidenavModule,
+     MatSlideToggleModule,
+     MatSliderModule,
+     MatSnackBarModule,
+     MatStepperModule,
+     MatTableModule,
+     MatTabsModule,
+     MatToolbarModule,
+     MatTooltipModule,
+     MatNativeDateModule,
+     MatPaginatorModule,
+     MatSortModule 
+   ]
+ })
+ export class MaterialModule {}
+
 
 @NgModule({
   declarations: [
@@ -100,7 +160,6 @@ export function createTranslateLoader(http: HttpClient) {
     HomeThreeComponent,
     HeaderThreeComponent,
     FixedHeaderComponent
-    //ProductsListComponent
   ],
   imports: [
 
@@ -109,31 +168,7 @@ export function createTranslateLoader(http: HttpClient) {
     RouterModule.forRoot(AppRoutes, {onSameUrlNavigation: 'reload'}),
     GlobalModule,
     TemplatesModule,
-    MatButtonModule, 
     FlexLayoutModule,
-    MatCardModule, 
-    MatMenuModule, 
-    MatToolbarModule, 
-    MatIconModule, 
-    MatInputModule, 
-    MatDatepickerModule, 
-    MatNativeDateModule, 
-    MatProgressSpinnerModule,
-    MatTableModule, 
-    MatExpansionModule, 
-    MatSelectModule, 
-    MatSnackBarModule, 
-    MatTooltipModule, 
-    MatChipsModule, 
-    MatListModule, 
-    MatSidenavModule, 
-    MatTabsModule, 
-    MatProgressBarModule,
-    MatCheckboxModule,
-    MatSliderModule,
-    MatRadioModule,
-    MatDialogModule,
-    MatGridListModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
@@ -143,20 +178,14 @@ export function createTranslateLoader(http: HttpClient) {
     AngularFirestoreModule,
     AngularFireDatabaseModule,
     ToastaModule.forRoot(),
-    BidiModule,
-    /*
-    TranslateModule.forRoot({
-       loader: {
-          provide: TranslateLoader,
-          useFactory: createTranslateLoader,
-          deps: [HttpClient]
-       }
-    }),
-    */
     SlickCarouselModule,
     NgAisModule,
     ProductListModule,
-    SharedModule
+    SharedModule,
+    CommonModule,
+    DragDropModule,
+    MaterialModule
+    
   ],
    providers: [
       MenuItems,

@@ -89,7 +89,7 @@ export class HomeThreeComponent implements OnInit {
    constructor(public embryoService : EmbryoService) { }
 
    ngOnInit() {
-      this.getProducts();
+      //this.getProducts();
    }
 
    public getProducts() {
