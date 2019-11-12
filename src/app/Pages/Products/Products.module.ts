@@ -6,6 +6,7 @@ import { ProductsRoutes } from './Products.routing';
 import { DetailPageModule } from '../../Pages/Products/DetailPage/DetailPage.module';
 import { ProductListModule } from '../../Pages/Products/ProductsList/ProductList.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { GlobalModule } from '../../Global/Global.module';
 
 @NgModule({
 	imports: [
@@ -14,7 +15,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 		FlexLayoutModule,
 		FormsModule,
 		ProductListModule,
-		DetailPageModule
+		DetailPageModule,
+		GlobalModule
 	],
 	declarations: [
 	]	

@@ -40,6 +40,7 @@ import { FixedHeaderComponent } from './Layouts/Header/FixedHeader/FixedHeader.c
 import { ProductListModule } from './Pages/Products/ProductsList/ProductList.module';
 import {HttpInterceptorImpl} from './shared/http-interceptor-impl';
 import { CategoriaService } from './Services/categoria.service';
+import { ProyectoService } from './Services/proyecto.service';
 import {SharedModule} from './shared/shared.module';
 import {CommonModule} from '@angular/common';
 import {DragDropModule} from '@angular/cdk/drag-drop';
@@ -191,6 +192,7 @@ import {
       MenuItems,
       EmbryoService,
       CategoriaService,
+      ProyectoService,
       Platform,
       {
         provide: HTTP_INTERCEPTORS,

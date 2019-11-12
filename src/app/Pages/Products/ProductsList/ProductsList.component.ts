@@ -3,66 +3,9 @@ import { Router, ActivatedRoute, Params }   from '@angular/router';
 import { Observable ,  Subscription } from 'rxjs';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { EmbryoService } from '../../../Services/Embryo.service';
+import {ProyectoService} from '../../../Services/proyecto.service';
 
 
-export interface Card {
-   title: string;
-   subtitle: string;
-   text: string;
- }
-const DATA: Card[] = [
-   {
-     title: 'Shiba Inu 1',
-     subtitle: 'Dog Breed',
-     text: 'The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.'
-   },
-   {
-     title: 'Shiba Inu 2',
-     subtitle: 'Dog Breed',
-     text: 'The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.'
-   },
-   {
-     title: 'Shiba Inu 3',
-     subtitle: 'Dog Breed',
-     text: 'The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.'
-   },
-   {
-     title: 'Shiba Inu 4',
-     subtitle: 'Dog Breed',
-     text: 'The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.'
-   },
-   {
-     title: 'Shiba Inu 5',
-     subtitle: 'Dog Breed',
-     text: 'The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.'
-   },
-   {
-     title: 'Shiba Inu 6',
-     subtitle: 'Dog Breed',
-     text: 'The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.'
-   },
-   {
-     title: 'Shiba Inu 7',
-     subtitle: 'Dog Breed',
-     text: 'The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.'
-   },
-   {
-     title: 'Shiba Inu 8',
-     subtitle: 'Dog Breed',
-     text: 'The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.'
-   },
-   {
-     title: 'Shiba Inu 9',
-     subtitle: 'Dog Breed',
-     text: 'The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.'
-   },
-   {
-     title: 'Shiba Inu 10',
-     subtitle: 'Dog Breed',
-     text: 'The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.'
-   }
- ];
- 
 @Component({
   selector: 'app-ProductsList',
   templateUrl: './ProductsList.component.html',
@@ -72,9 +15,13 @@ const DATA: Card[] = [
 
 export class ProductsListComponent implements OnInit, OnDestroy {
 
+
+
    @ViewChild(MatPaginator) paginator: MatPaginator;
-   obs: Observable<any>;
-   dataSource: MatTableDataSource<Card> = new MatTableDataSource<Card>(DATA);
+
+   public DATA: any[] = [];
+   public obs: Observable<any>;
+   public dataSource: MatTableDataSource<any>;
 
    type          : any;
    pips          : boolean = true;
@@ -83,64 +30,58 @@ export class ProductsListComponent implements OnInit, OnDestroy {
    pageTitle     : string;
    subPageTitle  : string;
 
+ 
+   
+
    public subscribers: any = {};
    
    constructor(private route: ActivatedRoute,
                private router: Router, 
                public embryoService : EmbryoService,
+               public ProyectoService: ProyectoService,
                private changeDetectorRef: ChangeDetectorRef
                ) {
    }
 
    ngOnInit() {
 
-      this.changeDetectorRef.detectChanges();
-      this.dataSource.paginator = this.paginator;
-      this.obs = this.dataSource.connect();
-      /*
-      this.route.params.subscribe(params => {
-         this.route.queryParams.forEach(queryParams => {
-            this.category = queryParams['category'];
-            this.type   = null;
-            this.type = params['type'];
-
-            this.getPageTitle();
-         });   
-      });
-      */
+      this.loadProjects();
    }
+
+
    ngOnDestroy() {
       if (this.dataSource) { 
         this.dataSource.disconnect(); 
       }
     }
+    public loadProjects() {
+      this.ProyectoService.getProyectosPorCategoria('1','0')
+      .subscribe(response => {
+          console.log(response);
+          response.map(aux => {
+            this.DATA.push({
+              title: aux.Nombre,
+              subtitle: aux.Especie,
+              text: aux.Formato1,
+              type: 'accessories',
+              id: 16,
+              image: 'assets/images/accessroies/a-1-a.jpg',
+              name: aux.Nombre,
+              price: aux.Precio
+            })
+            
+         });
+         this.dataSource = new MatTableDataSource<any>(this.DATA);
+         this.changeDetectorRef.detectChanges();
+         this.dataSource.paginator = this.paginator;
+         this.obs = this.dataSource.connect();
+        }, err => {
+          console.error(err);
+        }
+      );
+    }
 
-   public getPageTitle() {
-      this.pageTitle = null;
-      this.subPageTitle = null;
-      
-      switch (this.type || this.category) {
-         case undefined:
-            this.pageTitle = "Fashion";
-            this.subPageTitle="Explore your favourite fashion style.";
-            break;
 
-         case "gadgets":
-            this.pageTitle = "Gadgets";
-            this.subPageTitle="Check out our new gadgets.";
-            break;
-
-         case "accessories":
-            this.pageTitle = "Accessories";
-            this.subPageTitle="Choose the wide range of best accessories.";
-            break;
-         
-         default:
-            this.pageTitle = "Products";
-            this.subPageTitle = null;
-            break;
-      }
-   }
 
    public addToCart(value) {
       this.embryoService.addToCart(value);
@@ -160,4 +101,6 @@ export class ProductsListComponent implements OnInit, OnDestroy {
       });
       return hits;
    }
+
+
 }

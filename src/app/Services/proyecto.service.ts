@@ -12,9 +12,17 @@ export class ProyectoService {
               private errorHandling: ErrorHandling) {
   }
 
-  getProyectosPorCategoria(): Observable<any> {
+
+
+  getProyectosPorCategoria(categoriaId: string, tipoProyecto: string): Observable<any> {
     const url = `${this.url}/GetProyectosPorCategoria`;
-    return this.http.post(url,null).catch(this.errorHandling.handleError);
+
+    const body: any = {
+      CategoriaId: categoriaId,
+      TipoProyecto: tipoProyecto
+    };
+
+    return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
   }
 
 }
