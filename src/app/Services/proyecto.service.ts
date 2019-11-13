@@ -25,4 +25,10 @@ export class ProyectoService {
     return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
   }
 
+  
+  getProyectoPorId(id: string): Observable<any> {
+    const url = `${this.url}/GetProyectoPorId/`+ id;
+    return this.http.get(url).catch(this.errorHandling.handleError);
+  }
+
 }

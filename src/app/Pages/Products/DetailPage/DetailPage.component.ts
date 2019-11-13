@@ -1,24 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, Params }   from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { EmbryoService } from '../../../Services/Embryo.service';
+import { ProyectoService } from '../../../Services/proyecto.service';
 
 @Component({
-  selector: 'app-DetailPage',
-  templateUrl: './DetailPage.component.html',
-  styleUrls: ['./DetailPage.component.scss']
+   selector: 'app-DetailPage',
+   templateUrl: './DetailPage.component.html',
+   styleUrls: ['./DetailPage.component.scss']
 })
 export class DetailPageComponent implements OnInit {
-
-   id                : any;
-   type              : any;
-   apiResponse       : any;
-   singleProductData : any;
-   productsList      : any;
+   public images: string[] = [];
+   id: any;
+   type: any;
+   apiResponse: any;
+   singleProductData: any;
+   productsList: any;
 
    constructor(private route: ActivatedRoute,
-              private router: Router,
-              public embryoService: EmbryoService) {
-      
+      private router: Router,
+      public ProyectoService: ProyectoService,
+      public embryoService: EmbryoService) {
+
    }
 
    ngOnInit() {
@@ -30,15 +32,53 @@ export class DetailPageComponent implements OnInit {
    }
 
    public getData() {
-      this.embryoService.getProducts().valueChanges().subscribe(res => this.checkResponse(res));
+      this.ProyectoService.getProyectoPorId(this.id)
+         .subscribe(response => {
+            response.imagenes.map(aux => {
+               this.images.push(aux)
+            }, err => {
+               console.error(err);
+            });
+            var obj =
+            {
+               "availablity": true,
+               "brand": response.Nombre,
+               "category": "Laptop",
+               "category_type": "accessories",
+               "color": "Black",
+               "description": response.Descripcion,
+               "discount_price": 0,
+               "features": [
+                  "Dell/Mac/Acer Laptop Bag",
+                  "Pure Leather",
+                  "20 Kg Capacity"
+               ],
+               "id": response.ProyectoPlantillaId,
+               "image": response.Imagen,
+               "image_gallery": this.images,
+               "name": response.Nombre,
+               "popular": true,
+               "price": response.Precio,
+               "product_code": "#EM1215",
+               "quantity": 1,
+               "rating": 4,
+               "status": 0,
+               "tags": [
+                  "Black",
+                  "Laptop",
+                  "Bags"
+               ],
+               "type": "accessories"
+            }
+            this.singleProductData = obj;
+         });
    }
 
    public checkResponse(response) {
       this.productsList = null;
       this.productsList = response[this.type];
-      for(let data of this.productsList)
-      {
-         if(data.id == this.id) {
+      for (let data of this.productsList) {
+         if (data.id == this.id) {
             this.singleProductData = data;
             break;
          }

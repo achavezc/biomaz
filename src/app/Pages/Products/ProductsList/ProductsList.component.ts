@@ -64,8 +64,8 @@ export class ProductsListComponent implements OnInit, OnDestroy {
               subtitle: aux.Especie,
               text: aux.Formato1,
               type: 'accessories',
-              id: 16,
-              image: 'assets/images/accessroies/a-1-a.jpg',
+              id: aux.ProyectoPlantillaId,
+              image: aux.Imagen,
               name: aux.Nombre,
               price: aux.Precio
             })
