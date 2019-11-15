@@ -1,7 +1,19 @@
 
-<div class="inner-container">
+<div class="inner-container" >
   <div class="container">
+  
       <ng-container>
+          <div class="privacy-page" style="margin-top: 5%;">
+              <mat-card class="mb-5" style="margin-bottom: 0% !important">
+                <h4 class="mb-3" >
+                    {{nameCategoria}}
+                </h4>
+                <p>
+                    {{(showMore) ? text : content | slice:10:200}} <span *ngIf="!showMore">...</span> 
+                    <a href="javascript:;" *ngIf="!showMore" (click)="showMore=true">[Show More]</a>
+                    </p>
+              </mat-card>
+          </div> 
         <embryo-ProductGrid [currency]="embryoService?.currency" [products]="obs | async" (addToCart)="addToCart($event)" (addToWishList)="addToWishList($event)" gridThree=true> 
         </embryo-ProductGrid>
         <mat-paginator [pageSizeOptions]="[6, 12, 18, 100]"></mat-paginator>

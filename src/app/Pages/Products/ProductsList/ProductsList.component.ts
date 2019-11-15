@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, ViewChild, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, OnDestroy,Input, ViewChild, ChangeDetectorRef} from '@angular/core';
 import { Router, ActivatedRoute, Params }   from '@angular/router';
 import { Observable ,  Subscription } from 'rxjs';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
@@ -16,6 +16,10 @@ import {ProyectoService} from '../../../Services/proyecto.service';
 export class ProductsListComponent implements OnInit, OnDestroy {
 
 
+   @Input() nameCategoria : any ;
+   @Input() idCategoria : any ;
+   @Input() content : any ;
+   showMore = false;
 
    @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -54,8 +58,9 @@ export class ProductsListComponent implements OnInit, OnDestroy {
         this.dataSource.disconnect(); 
       }
     }
+    
     public loadProjects() {
-      this.ProyectoService.getProyectosPorCategoria('1','0')
+      this.ProyectoService.getProyectosPorCategoria(this.idCategoria,'0')
       .subscribe(response => {
           console.log(response);
           response.map(aux => {
@@ -63,7 +68,7 @@ export class ProductsListComponent implements OnInit, OnDestroy {
               title: aux.Nombre,
               subtitle: aux.Especie,
               text: aux.Formato1,
-              type: 'accessories',
+              type: this.nameCategoria,
               id: aux.ProyectoPlantillaId,
               image: aux.Imagen,
               name: aux.Nombre,

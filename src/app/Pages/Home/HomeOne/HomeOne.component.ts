@@ -3,6 +3,7 @@ import { MatTabChangeEvent } from '@angular/material';
 import { ChangeDetectorRef } from '@angular/core';
 
 import { EmbryoService } from '../../../Services/Embryo.service';
+import {CategoriaService} from '../../../Services/categoria.service';
 
 @Component({
   selector: 'app-homeone',
@@ -10,7 +11,7 @@ import { EmbryoService } from '../../../Services/Embryo.service';
   styleUrls: ['./HomeOne.component.scss']
 })
 export class HomeoneComponent implements OnInit, AfterViewChecked{
-
+   public slides: any[] = [];
    blogList              : any;
    productReviews        : any;
    productsArray         : any;
@@ -86,13 +87,10 @@ export class HomeoneComponent implements OnInit, AfterViewChecked{
    };
 
    constructor(public embryoService: EmbryoService,
+               private categoriaService: CategoriaService,
                private cdRef : ChangeDetectorRef) {
-      this.getFeaturedProducts();
-      this.getBlogList();
-      this.getProductRevies();
 
-      this.embryoService.featuredProductsSelectedTab = 0;
-      this.embryoService.newArrivalSelectedTab = 0;
+        this.getCategorias();
    }
 
    ngOnInit() {
@@ -102,77 +100,31 @@ export class HomeoneComponent implements OnInit, AfterViewChecked{
       this.cdRef.detectChanges();
    }
 
-   public getFeaturedProducts() {
-      this.embryoService.getProducts().valueChanges().subscribe(res => {this.productsArray = res});
+   public getCategorias(){
+      this.categoriaService.get()
+      .subscribe(response => {
+          console.log(response);
+          response.map(aux => {
+            this.slides.push({
+               img: aux.ImagenBanner,
+               content: aux.Descripcion,
+               heading_one: aux.Nombre,
+               name: aux.Nombre,
+               id: aux.CategoriaId
+            });
+         });
+        }, err => {
+          
+          console.error(err);
+        }
+      );
    }
 
-   public getBlogList() {
-      this.embryoService.getBlogList().valueChanges().subscribe(res => {this.blogList = res});
-   }
+
 
    public addToCart(value) {
       this.embryoService.addToCart(value);
    }
 
-   public getProductRevies() {
-      this.embryoService.getProductReviews().valueChanges().subscribe(res => {this.productReviews = res});
-   }
 
-   public addToWishlist(value) {
-      this.embryoService.addToWishlist(value);
-   }
-
-   public onFeaturedSelectedTab(tabIndex) {
-      this.productsSliderData = null;
-      switch (tabIndex) {
-         case 0:
-            this.productsSliderData = this.productsArray.men;
-         break;
-
-         case 1:
-            this.productsSliderData = this.productsArray.women;
-         break;
-
-         case 2:
-            this.productsSliderData = this.productsArray.gadgets;
-         break;
-
-         case 3:
-            this.productsSliderData = this.productsArray.accessories;
-         break;
-         
-         default:
-            // code...
-            break;
-      }
-
-      return true;
-   }
-
-   public onNewArrivalsSelectedTab(tabIndex) {
-      this.newProductsSliderData = null;
-      switch (tabIndex) {
-         case 0:
-            this.newProductsSliderData = this.productsArray.men;
-         break;
-
-         case 1:
-            this.newProductsSliderData = this.productsArray.women;
-         break;
-
-         case 2:
-            this.newProductsSliderData = this.productsArray.gadgets;
-         break;
-
-         case 3:
-            this.newProductsSliderData = this.productsArray.accessories;
-         break;
-         
-         default:
-            // code...
-            break;
-      }
-
-      return true;
-   }
 }
