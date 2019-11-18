@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-//import { TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'embryo-LanguageDropDown',
@@ -20,8 +20,8 @@ export class LanguageDropDownComponent implements OnInit {
       }
    ]
 
-   //constructor(public translate: TranslateService) { }
-   constructor(){}
+   constructor(public translate: TranslateService) { }
+   //constructor(){}
    ngOnInit() {
    }
 

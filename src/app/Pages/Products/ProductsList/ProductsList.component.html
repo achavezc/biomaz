@@ -9,7 +9,7 @@
                     {{nameCategoria}}
                 </h4>
                 <p>
-                    {{(showMore) ? text : content | slice:10:200}} <span *ngIf="!showMore">...</span> 
+                    {{(showMore) ? content : content | slice:10:200}} <span *ngIf="!showMore">...</span> 
                     <a href="javascript:;" *ngIf="!showMore" (click)="showMore=true">[Show More]</a>
                     </p>
               </mat-card>
