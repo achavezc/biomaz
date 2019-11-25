@@ -1,24 +1,33 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
+import { Observable, throwError } from 'rxjs'
 import {host} from '../shared/hosts/main.host';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
-import {ErrorHandling} from '../shared/utils/error-handling';
+import { catchError, tap } from 'rxjs/operators'
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { ToastaService, ToastaConfig, ToastOptions, ToastData } from 'ngx-toasta';
+import { AutenticacionService } from '../Services/autenticacion.service';
 
-@Injectable()
+
+@Injectable({
+   providedIn: 'root'
+})
+
 export class CarritoService 
 {
 
-  private url = `${host}Carrito`;
+  //private url = `${host}CarritoCompra`;
+  private url = `${host}CarritoCompra`;
 
   localStorageCartProducts : any;
   navbarCartCount : number = 0;
 
   
-  constructor(private http: HttpClient,
-              private errorHandling: ErrorHandling, 
+  constructor(private _http: HttpClient,
+               private _Route: Router,
               private toastyService: ToastaService,
-              private toastyConfig: ToastaConfig) {
+              private toastyConfig: ToastaConfig,
+              private autenticacionService: AutenticacionService) 
+              {
   }
 
   
@@ -31,34 +40,84 @@ export class CarritoService
        let productsLength = products.length; 
  
        let toastOption: ToastOptions = {
-          title: "Adding Product To Cart",
-          msg: "Product adding to the cart",
+          title: "Agregando Proyecto al Carrito",
+          msg: "Proyecto agregado al Carrito",
           showClose: true,
           timeout: 1000,
           theme: "material"
        };
  
        let found = products.some(function (el, index) {
-          if(el.name == data.name){
+          if(el.id == data.id){
              if(!data.quantity) { data.quantity = 1}
              products[index]['quantity'] = data.quantity;
              return  true;
           }
        });
-       if (!found) { products.push(data); }
+       
+
+       if (!found) 
+       { 
+          /* let carritoItem: any = {
+            id: data.id,
+            image: data.image,
+            name: data.name,
+            quantity: data.quantity,
+            price: data.price
+           };  
+
+           let x = JSON.stringify(products); */
  
-       if(productsLength == products.length) {
-          toastOption.title = "Product Already Added";
-          toastOption.msg = "You have already added this product to cart list";
+          products.push(data); 
+         }
+
+       if(productsLength == products.length) 
+       {
+          toastOption.title = "Proyecto ya agregado al Carrito";
+          toastOption.msg = "Ya ha agregado este proyecto a su lista de compras";
+       }
+
+    /*    this.toastyService.wait(toastOption);
+      setTimeout(() => {
+         localStorage.setItem("cart_item", JSON.stringify(products));
+         this.calculateLocalCartProdCounts();
+      }, 500); */
+
+
+      this.toastyService.wait(toastOption);      
+
+      localStorage.setItem("cart_item", JSON.stringify(products));
+
+      this.calculateLocalCartProdCounts();
+
+      let usuario = this.autenticacionService.isLoggedIn();
+
+       if(usuario.Autenticado)
+       {   
+         this.actualizarCarrito(null,usuario.MiembroId,data.id,1, true).subscribe(
+            response => 
+            {     
+               console.error('actualizarCarrito correctamente'); 
+                
+            }); 
        }
  
        
  
+       
+       /*
        this.toastyService.wait(toastOption);
-       setTimeout(() => {
+       setTimeout(() => 
+       {
           localStorage.setItem("cart_item", JSON.stringify(products));
+          let usuario = this.autenticacionService.isLoggedIn();
+          if(usuario.Autenticado)
+          {
+            this.actualizarCarrito(0,usuario.MiembroId,data.id,1, true)
+
+          }
           this.calculateLocalCartProdCounts();
-       }, 500);
+       }, 500); */
     }
 // returning LocalCarts Product Count
 public calculateLocalCartProdCounts() {
@@ -67,9 +126,51 @@ public calculateLocalCartProdCounts() {
   this.navbarCartCount = +((this.localStorageCartProducts).length);
 }
 
-  get(): Observable<any> {
-    const url = `${this.url}/Get`;
-    return this.http.get(url).catch(this.errorHandling.handleError);
+  
+
+
+  private actualizarCarrito(carritoCompraId: number, miembroId: number,proyectoId: number, cantidad: number, estado: boolean)
+  {
+      const url = `${this.url}` + '/ActualizarCarritoCompra';
+      const body: any = {
+         CarritoCompraId: carritoCompraId,
+         MiembroId: miembroId,
+         ProyectoId: proyectoId,
+         Cantidad: cantidad,
+         Estado: estado,
+        };    
+
+
+      let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      return this._http.post<any>(url, body, { headers: headers })
+          .pipe(tap(data =>
+          {              
+            console.error('service actualizarCarrito correctamente');            
+
+            return true;
+          }),
+              catchError(this.handleError)
+          ); 
+
+
+        
+
   }
+
+
+  
+
+  private handleError(error: HttpErrorResponse) {
+   if (error.error instanceof ErrorEvent) {
+       // A client-side or network error occurred. Handle it accordingly.
+       console.error('An error occurred:', error.error.message);
+   } else {
+       // The backend returned an unsuccessful response code.
+       // The response body may contain clues as to what went wrong,
+       console.error(`Backend returned code ${error.status}, ` + `body was: ${error.error}`);
+   }
+   // return an observable with a user-facing error message
+   return throwError('Something bad happened; please try again later.');
+};
 
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { EmbryoService } from '../../../Services/Embryo.service';
+import { CarritoService } from '../../../Services/carrito.service';
+
 declare var $: any;
 
 @Component({
@@ -15,7 +17,7 @@ export class HeaderOneComponent implements OnInit {
    popupResponse    : any;
    wishlistProducts : any;
 
-   constructor(public embryoService: EmbryoService) {}
+   constructor(public embryoService: EmbryoService,public carritoService:CarritoService) {}
 
    ngOnInit() {
    }
@@ -70,6 +72,6 @@ export class HeaderOneComponent implements OnInit {
    }
 
    public addToCart(value) {
-      this.embryoService.addToCart(value, 'wishlist');
+      this.carritoService.addToCart(value, 'wishlist');
    }
 }

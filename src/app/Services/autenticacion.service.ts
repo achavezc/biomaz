@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
     providedIn: 'root'
 })
 
-export class LoginService
+export class AutenticacionService
  {
     private url = `${host}Authenticate`;
 
@@ -55,6 +55,29 @@ export class LoginService
     LogoutUser() {
         localStorage.removeItem('currentUser');
     }
+
+    isLoggedIn() 
+    {             
+        let currentUser : any;
+
+         localStorage.getItem('currentUser');  
+
+        currentUser = JSON.parse(localStorage.getItem("currentUser"));
+        
+        let usuario: any = {
+            Autenticado: false,
+            MiembroId: ""
+           };   
+
+        if(currentUser)  
+        {            
+            usuario.Autenticado=true; 
+            usuario.MiembroId=currentUser.MiembroId;             
+        }
+          
+
+          return usuario;
+      }  
 
     private handleError(error: HttpErrorResponse) {
         if (error.error instanceof ErrorEvent) {

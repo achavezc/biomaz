@@ -19,6 +19,7 @@ export class EmbryoService {
    sidenavOpen                 : boolean = false;
    paymentSidenavOpen          : boolean = false;
    isDirectionRtl              : boolean = false;
+   esUsuarioAutenticado              : boolean = false;
    featuredProductsSelectedTab : any = 0;
    newArrivalSelectedTab       : any = 0;
 
@@ -49,11 +50,11 @@ export class EmbryoService {
       localStorage.removeItem("user");
       localStorage.removeItem("byProductDetails");
 
-      this.db.object("products").valueChanges().subscribe(res =>
+      /* this.db.object("products").valueChanges().subscribe(res =>
           {
              this.setCartItemDefaultValue(res['gadgets'][1])
            }
-          );
+          ); */
    }
 
    public setCartItemDefaultValue(setCartItemDefaultValue) {
@@ -105,7 +106,7 @@ export class EmbryoService {
       ----------  Cart Product Function  ----------
    */
 
-   // Adding new Product to cart in localStorage
+   /* // Adding new Product to cart in localStorage
    public addToCart(data: any, type:any=""){
       let products : any;
       products = JSON.parse(localStorage.getItem("cart_item")) || [];
@@ -120,8 +121,12 @@ export class EmbryoService {
       };
 
       let found = products.some(function (el, index) {
-         if(el.name == data.name){
-            if(!data.quantity) { data.quantity = 1}
+         if(el.name == data.name)
+         {
+            if(!data.quantity) 
+            { 
+               data.quantity = 1
+            }
             products[index]['quantity'] = data.quantity;
             return  true;
          }
@@ -142,7 +147,7 @@ export class EmbryoService {
          localStorage.setItem("cart_item", JSON.stringify(products));
          this.calculateLocalCartProdCounts();
       }, 500);
-   }
+   } */
 
    public buyNow(data:any) {
       let products : any;

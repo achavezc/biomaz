@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { LoginService } from '../../Services/autenticacion.service';
+import { AutenticacionService } from '../../Services/autenticacion.service';
 
 @Component({
   selector: 'embryo-SignIn',
@@ -12,7 +12,7 @@ export class CommonSignInComponent implements OnInit {
    commonSignInForm  : FormGroup;
    emailPattern : any = /\S+@\S+\.\S+/;
 
-   constructor(private formGroup : FormBuilder,public loginService: LoginService) { }
+   constructor(private formGroup : FormBuilder,public autenticacionService: AutenticacionService) { }
 
    ngOnInit() {
       this.commonSignInForm = this.formGroup.group({         
@@ -26,7 +26,7 @@ export class CommonSignInComponent implements OnInit {
       {
          console.log(this.commonSignInForm.controls['email'])
 
-          this.loginService.validateLoginUser(this.commonSignInForm.controls['email'].value,this.commonSignInForm.controls['password'].value).subscribe(
+          this.autenticacionService.validateLoginUser(this.commonSignInForm.controls['email'].value,this.commonSignInForm.controls['password'].value).subscribe(
             response => 
             {     
                 console.log(response);
