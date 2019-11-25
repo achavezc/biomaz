@@ -43,7 +43,7 @@ export class HeaderOneComponent implements OnInit {
    public getPopupResponse(response:any, value:any, type) {
       if(response) {
          if(type == 'cart'){
-            this.embryoService.removeLocalCartProduct(value);
+            this.carritoService.removeLocalCartProduct(value);
          } else {
             this.embryoService.removeLocalWishlistProduct(value);
          }

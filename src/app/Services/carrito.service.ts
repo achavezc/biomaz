@@ -47,29 +47,37 @@ export class CarritoService
           theme: "material"
        };
  
+       if(!data.quantity)
+       {
+         data.quantity = 1
+       }
+
        let found = products.some(function (el, index) {
-          if(el.id == data.id){
-             if(!data.quantity) { data.quantity = 1}
+          if(el.id == data.id)
+          {      
              products[index]['quantity'] = data.quantity;
              return  true;
           }
        });
-       
+             
 
        if (!found) 
        { 
-          /* let carritoItem: any = {
+           let carritoItem: any = 
+           {
             id: data.id,
+            carritoid: null,
             image: data.image,
             name: data.name,
+            title: data.name,
             quantity: data.quantity,
             price: data.price
-           };  
-
-           let x = JSON.stringify(products); */
- 
-          products.push(data); 
+           } 
+        
+          products.push(carritoItem); 
          }
+
+
 
        if(productsLength == products.length) 
        {
@@ -77,11 +85,6 @@ export class CarritoService
           toastOption.msg = "Ya ha agregado este proyecto a su lista de compras";
        }
 
-    /*    this.toastyService.wait(toastOption);
-      setTimeout(() => {
-         localStorage.setItem("cart_item", JSON.stringify(products));
-         this.calculateLocalCartProdCounts();
-      }, 500); */
 
 
       this.toastyService.wait(toastOption);      
@@ -93,40 +96,76 @@ export class CarritoService
       let usuario = this.autenticacionService.isLoggedIn();
 
        if(usuario.Autenticado)
-       {   
-         this.actualizarCarrito(null,usuario.MiembroId,data.id,1, true).subscribe(
+       {             
+         let codigoCarritoCompra : number;
+
+          if(found) //Actualizacioón
+          {
+            codigoCarritoCompra = 1;
+          }
+
+         this.actualizarCarrito(codigoCarritoCompra,usuario.MiembroId,data.id,data.quantity, true).subscribe(
             response => 
             {     
-               console.error('actualizarCarrito correctamente'); 
+               console.log('actualizarCarrito correctamente'); 
                 
             }); 
        }
- 
        
- 
-       
-       /*
-       this.toastyService.wait(toastOption);
-       setTimeout(() => 
-       {
-          localStorage.setItem("cart_item", JSON.stringify(products));
-          let usuario = this.autenticacionService.isLoggedIn();
-          if(usuario.Autenticado)
-          {
-            this.actualizarCarrito(0,usuario.MiembroId,data.id,1, true)
-
-          }
-          this.calculateLocalCartProdCounts();
-       }, 500); */
     }
+
+
+    // Removing cart from local
+   public removeLocalCartProduct(data: any) 
+   {
+      let products: any = JSON.parse(localStorage.getItem("cart_item"));
+
+      for (let i = 0; i < products.length; i++) 
+      {
+         if (products[i].id === data.id) 
+         {
+           products.splice(i, 1);
+           break;
+         }
+      }
+
+      let toastOption: ToastOptions = {
+         title: "Removiendo Proyecto del Carrito",
+         msg: "Proyecto removido del carrito",
+         showClose: true,
+         timeout: 1000,
+         theme: "material"
+      };
+
+      this.toastyService.wait(toastOption);
+
+      localStorage.setItem("cart_item", JSON.stringify(products));
+
+      this.calculateLocalCartProdCounts();
+
+      let usuario = this.autenticacionService.isLoggedIn();
+
+       if(usuario.Autenticado)
+       {
+         this.actualizarCarrito(0,usuario.MiembroId,data.id,data.quantity, false).subscribe(
+            response => 
+            {     
+               console.log('actualizarCarrito correctamente'); 
+                
+            }); 
+       }
+      
+   }
+
+
 // returning LocalCarts Product Count
 public calculateLocalCartProdCounts() {
   this.localStorageCartProducts = null;
   this.localStorageCartProducts = JSON.parse(localStorage.getItem("cart_item")) || [];
   this.navbarCartCount = +((this.localStorageCartProducts).length);
-}
+} 
 
-  
+ 
 
 
   private actualizarCarrito(carritoCompraId: number, miembroId: number,proyectoId: number, cantidad: number, estado: boolean)
@@ -151,10 +190,6 @@ public calculateLocalCartProdCounts() {
           }),
               catchError(this.handleError)
           ); 
-
-
-        
-
   }
 
 

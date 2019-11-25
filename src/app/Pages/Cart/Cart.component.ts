@@ -42,7 +42,7 @@ export class CartComponent implements OnInit, AfterViewChecked {
 
    public getPopupResponse(response, value) {
       if(response){
-         this.embryoService.removeLocalCartProduct(value);
+         this.carritoService.removeLocalCartProduct(value);
       }
    }
 
