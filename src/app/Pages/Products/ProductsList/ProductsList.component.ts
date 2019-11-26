@@ -6,6 +6,7 @@ import { EmbryoService } from '../../../Services/Embryo.service';
 import {ProyectoService} from '../../../Services/proyecto.service';
 import { CarritoService } from '../../../Services/carrito.service';
 
+
 @Component({
   selector: 'app-ProductsList',
   templateUrl: './ProductsList.component.html',
@@ -19,7 +20,8 @@ export class ProductsListComponent implements OnInit, OnDestroy {
    @Input() nameCategoria : any ;
    @Input() idCategoria : any ;
    @Input() content : any ;
-   showMore = false;
+   show = false;
+
 
    @ViewChild(MatPaginator) paginator: MatPaginator;
 

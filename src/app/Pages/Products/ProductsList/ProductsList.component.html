@@ -8,10 +8,15 @@
                 <h4 class="mb-3" >
                     {{nameCategoria}}
                 </h4>
-                <p>
-                    {{(showMore) ? content : content | slice:10:200}} <span *ngIf="!showMore">...</span> 
-                    <a href="javascript:;" *ngIf="!showMore" (click)="showMore=true">[Show More]</a>
-                    </p>
+                
+         
+                <div class="ctn" [class.show]="show">
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                </div>
+                <button (click)="show = !show">{{ show ? 'Show less': 'Show More' }}</button>
+                
+    
+              
               </mat-card>
           </div> 
         <embryo-ProductGrid [currency]="embryoService?.currency" [products]="obs | async" (addToCart)="addToCart($event)" (addToWishList)="addToWishList($event)" gridThree=true> 
