@@ -1,18 +1,20 @@
-<form>
-  <div class="mb-4">
-    <mat-form-field class="w-100">
-      <input matInput type="email" placeholder="Email" required>
-    </mat-form-field>
-  </div>
-  <div class="mb-4">
-    <mat-form-field class="w-100">
-      <input matInput type="password" placeholder="Password" required>
-    </mat-form-field>
-  </div>
+<form [formGroup] = "commonSignInForm" (ngSubmit) = "submitForm()">
+<mat-form-field class="w-100">
+     <input matInput placeholder="Email" formControlName="email">
+  </mat-form-field>
+  <mat-error *ngIf="commonSignInForm.controls['email'].hasError('required') && commonSignInForm.controls['email'].touched"> Email es requerido.</mat-error>
+  <mat-error *ngIf="commonSignInForm.controls['email'].hasError('pattern') && commonSignInForm.controls['email'].touched && !commonSignInForm.controls['email'].hasError('required')">Please enter a valid email.</mat-error>
+  <mat-form-field class="w-100">
+     <input matInput placeholder="Password" type="password"  formControlName="password">
+  </mat-form-field>
+  <mat-error *ngIf="commonSignInForm.controls['password'].hasError('required') && commonSignInForm.controls['password'].touched"> Password es requerido.</mat-error>
   <div class="mb-3">
-    <mat-checkbox>Remember Me</mat-checkbox>
-    <span fxFlex></span> <a [routerLink]="['/session/forgot-password']">Forgot Password?</a>
-  </div>
-  <button color="accent" class="button-lg mb-3" mat-raised-button [routerLink]="['/checkout/payment']">Sign In</button>
-  <p>Don't have an account? <a [routerLink]="['/session/signup']">Click here to create one</a></p>
+   <mat-checkbox>Recordarme</mat-checkbox>
+   <span fxFlex></span> <a [routerLink]="['/session/forgot-password']">Forgot Password?</a>
+ </div>
+ <button mat-raised-button color="accent" class="button-lg mb-3" type="submit">Sign In</button>
+
+ <p>Don't have an account? <a [routerLink]="['/session/signup']">Click here to create one</a></p>
+ 
 </form>
+     

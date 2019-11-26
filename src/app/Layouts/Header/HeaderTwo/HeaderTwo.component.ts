@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EmbryoService } from '../../../Services/Embryo.service';
+import { CarritoService } from '../../../Services/carrito.service';
+
 declare var $: any;
 
 @Component({
@@ -11,7 +13,7 @@ export class HeaderTwoComponent implements OnInit {
 
    popupResponse : any;
 
-   constructor(public embryoService : EmbryoService) { }
+   constructor(public embryoService : EmbryoService,public carritoService : CarritoService) { }
 
    ngOnInit() {
    }
@@ -66,7 +68,7 @@ export class HeaderTwoComponent implements OnInit {
    }
 
    public addToCart(value) {
-      this.embryoService.addToCart(value, 'wishlist');
+      this.carritoService.addToCart(value, 'wishlist');
    } 
 
 }

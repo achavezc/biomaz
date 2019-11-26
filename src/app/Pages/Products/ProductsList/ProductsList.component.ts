@@ -4,7 +4,7 @@ import { Observable ,  Subscription } from 'rxjs';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { EmbryoService } from '../../../Services/Embryo.service';
 import {ProyectoService} from '../../../Services/proyecto.service';
-
+import { CarritoService } from '../../../Services/carrito.service';
 
 @Component({
   selector: 'app-ProductsList',
@@ -43,6 +43,7 @@ export class ProductsListComponent implements OnInit, OnDestroy {
                private router: Router, 
                public embryoService : EmbryoService,
                public ProyectoService: ProyectoService,
+               public carritoService: CarritoService,              
                private changeDetectorRef: ChangeDetectorRef
                ) {
    }
@@ -94,8 +95,9 @@ export class ProductsListComponent implements OnInit, OnDestroy {
 
 
 
-   public addToCart(value) {
-      this.embryoService.addToCart(value);
+   public addToCart(value) 
+   {
+      this.carritoService.addToCart(value);      
    }
 
    public addToWishList(value) {

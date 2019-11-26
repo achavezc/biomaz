@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AutenticacionService } from '../../Services/autenticacion.service';
 
 @Component({
   selector: 'embryo-SignIn',
@@ -7,9 +9,51 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CommonSignInComponent implements OnInit {
 
-  constructor() { }
+   commonSignInForm  : FormGroup;
+   emailPattern : any = /\S+@\S+\.\S+/;
 
-  ngOnInit() {
-  }
+   constructor(private formGroup : FormBuilder,public autenticacionService: AutenticacionService) { }
+
+   ngOnInit() {
+      this.commonSignInForm = this.formGroup.group({         
+         email      : ['', { validators: [Validators.required, Validators.pattern(this.emailPattern)] }],
+         password    : ['', { validators: [Validators.required] }]
+      })
+   }
+
+   public submitForm() {
+      if(this.commonSignInForm.valid)
+      {
+         console.log(this.commonSignInForm.controls['email'])
+
+          this.autenticacionService.validateLoginUser(this.commonSignInForm.controls['email'].value,this.commonSignInForm.controls['password'].value).subscribe(
+            response => 
+            {     
+                console.log(response);
+                if (response.Token == null && response.Token == "") 
+                {
+                  console.log("no login");
+                    // let config = new MatSnackBarConfig();
+                    // config.duration = this.setAutoHide ? this.autoHide : 0;
+                    // config.verticalPosition = this.verticalPosition;
+                  
+                    // this.snackBar.open("Invalid Username and Password", this.action ? this.actionButtonLabel : undefined, config);
+
+                    //this._Route.navigate(['Login']);
+                }
+                else
+                {
+                  console.log("ok login");
+                }
+            }); 
+      } 
+      else 
+      {
+         for (let i in this.commonSignInForm.controls) 
+         {
+            this.commonSignInForm.controls[i].markAsTouched();
+         }
+      }
+   }
 
 }
