@@ -45,30 +45,34 @@
               </div>
               <ul class="no-style mb-4">
                 <li>
-                  <span class="font-medium"> Availablity </span>: 
-                    <span *ngIf="detailData?.availablity">In Stocks</span>
-                    <span *ngIf="!(detailData?.availablity)">Out Of Stocks</span>
+                  <span class="font-medium"> Especie </span>: 
+                    <span *ngIf="detailData?.availablity">{{detailData?.especie}}</span>
                 </li>
                 <li>
-                  <span class="font-medium">Product Code </span>: {{detailData?.product_code}}
+                  <span class="font-medium">Tipo </span>: {{detailData?.tipo}}
                 </li>
                 <li>
-                  <span class="font-medium">Tags</span>: 
-                    <ng-container *ngFor="let tag of detailData.tags">{{tag}}</ng-container>
+                  <span class="font-medium">Formato 1 </span>: {{detailData?.formato1}}
+                </li>
+                <li>
+                  <span class="font-medium">Formato 2 </span>: {{detailData?.formato2}}
+                </li>
+                <li>
+                  <span class="font-medium">Cantidad Estimada </span>: {{detailData?.cantidadEstimada}}
                 </li>
               </ul>
               <div class="short-des">
                 <p>{{detailData?.description}}
                 </p>
               </div>
-              <div class="bullets-points">
+     <!--          <div class="bullets-points">
                 <ul class="bullets-list">
                   <li *ngFor="let feature of detailData?.features">
                     {{feature}}
                   </li>
                 </ul>
-              </div>
-              <div fxLayoutGap="30px" class="mb-3 select-group">
+              </div> -->
+              <!-- <div fxLayoutGap="30px" class="mb-3 select-group">
                 <ng-container *ngIf="type == 'men' || type == 'women'">
                   <mat-form-field>
                     <mat-select class="product-detail-select" placeholder="Color">
@@ -92,7 +96,7 @@
                     </ng-container>
                   </mat-select>
                 </mat-form-field>
-              </div>
+              </div> -->
               <div class="mb-4">
                 <a href="javascript:void(0)" class="text-underline" (click)="addToWishlist(detailData)"> Add To Wishlist</a>
               </div>
@@ -110,6 +114,15 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <div fxLayout='row wrap' fxLayoutAlign="center center" class="col-gap">
+        <div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md=90 fxFlex.lg="80" fxFlex.xl="90">
+            Ubicación
+        </div>
+        <div class="contact-map">
+            <embryo-Map [address]="contactInfo?.address"></embryo-Map>
+        </div>
     </div>
   </div>
 </div>

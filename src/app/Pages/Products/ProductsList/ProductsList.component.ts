@@ -72,7 +72,13 @@ export class ProductsListComponent implements OnInit, OnDestroy {
               id: aux.ProyectoPlantillaId,
               image: aux.Imagen,
               name: aux.Nombre,
-              price: aux.Precio
+              price: aux.Precio,
+              especie: aux.Especie,
+              tipo: aux.Tipo,
+              formado: aux.Formato1,
+              departamento: aux.Departamento,
+              
+
             })
             
          });
