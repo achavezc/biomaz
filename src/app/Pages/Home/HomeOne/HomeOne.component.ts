@@ -4,7 +4,7 @@ import { ChangeDetectorRef } from '@angular/core';
 
 import { EmbryoService } from '../../../Services/Embryo.service';
 import {CategoriaService} from '../../../Services/categoria.service';
-import { CarritoService } from '../../../Services/carrito.service';
+
 
 @Component({
   selector: 'app-homeone',
@@ -88,7 +88,7 @@ export class HomeoneComponent implements OnInit, AfterViewChecked{
    };
 
    constructor(public embryoService: EmbryoService,
-               private categoriaService: CategoriaService,private carritoService: CarritoService,
+               private categoriaService: CategoriaService,
                private cdRef : ChangeDetectorRef) {
 
         this.getCategorias();
@@ -124,7 +124,7 @@ export class HomeoneComponent implements OnInit, AfterViewChecked{
 
 
    public addToCart(value) {
-      this.carritoService.addToCart(value);
+      this.embryoService.addToCart(value);
    }
 
 

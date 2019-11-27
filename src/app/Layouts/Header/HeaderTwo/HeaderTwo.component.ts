@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EmbryoService } from '../../../Services/Embryo.service';
-import { CarritoService } from '../../../Services/carrito.service';
+
 
 declare var $: any;
 
@@ -13,7 +13,7 @@ export class HeaderTwoComponent implements OnInit {
 
    popupResponse : any;
 
-   constructor(public embryoService : EmbryoService,public carritoService : CarritoService) { }
+   constructor(public embryoService : EmbryoService) { }
 
    ngOnInit() {
    }
@@ -28,7 +28,7 @@ export class HeaderTwoComponent implements OnInit {
    }
 
    public openConfirmationPopup(value:any) {
-      let message = "Are you sure you want to delete this product?";
+      let message = "¿Está seguro de querer eliminar este Proyecto?";
       this.embryoService.confirmationPopup(message).
          subscribe(res => {this.popupResponse = res},
                    err => console.log(err),
@@ -68,7 +68,7 @@ export class HeaderTwoComponent implements OnInit {
    }
 
    public addToCart(value) {
-      this.carritoService.addToCart(value, 'wishlist');
+      this.embryoService.addToCart(value, 'wishlist');
    } 
 
 }

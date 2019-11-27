@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+/* import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs'
 import {host} from '../shared/hosts/main.host';
 import { catchError, tap } from 'rxjs/operators'
@@ -147,3 +147,4 @@ export class AutenticacionService
         return throwError('Something bad happened; please try again later.');
     };
 }
+ */

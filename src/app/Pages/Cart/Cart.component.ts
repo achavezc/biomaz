@@ -4,7 +4,7 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
 import { ChangeDetectorRef } from '@angular/core';
 
 import { EmbryoService } from '../../Services/Embryo.service';
-import { CarritoService } from '../../Services/carrito.service';
+
 
 @Component({
   selector: 'embryo-Cart',
@@ -18,7 +18,7 @@ export class CartComponent implements OnInit, AfterViewChecked {
    popupResponse  : any;
 
    constructor(public embryoService : EmbryoService, 
-               public carritoService : CarritoService,
+             
                private router: Router,
                private loadingBar: LoadingBarService,
                private cdRef : ChangeDetectorRef) {
@@ -32,7 +32,7 @@ export class CartComponent implements OnInit, AfterViewChecked {
    }
 
    public removeProduct(value:any) {
-      let message = "Are you sure you want to delete this product?";
+      let message = "¿Está seguro de querer eliminar este Proyecto?";
       this.embryoService.confirmationPopup(message).
          subscribe(res => {this.popupResponse = res},
                    err => console.log(err),
@@ -42,7 +42,7 @@ export class CartComponent implements OnInit, AfterViewChecked {
 
    public getPopupResponse(response, value) {
       if(response){
-         this.carritoService.removeLocalCartProduct(value);
+         this.embryoService.removeLocalCartProduct(value);
       }
    }
 
@@ -55,8 +55,8 @@ export class CartComponent implements OnInit, AfterViewChecked {
 
    public calculateTotalPrice() {
       let subtotal = 0;
-      if(this.carritoService.localStorageCartProducts && this.carritoService.localStorageCartProducts.length>0) {
-         for(let product of this.carritoService.localStorageCartProducts) {
+      if(this.embryoService.localStorageCartProducts && this.embryoService.localStorageCartProducts.length>0) {
+         for(let product of this.embryoService.localStorageCartProducts) {
             subtotal += (product.price *product.quantity);
          }
          return subtotal;
@@ -67,8 +67,8 @@ export class CartComponent implements OnInit, AfterViewChecked {
 
    public getTotalPrice() {
       let total = 0;
-      if(this.carritoService.localStorageCartProducts && this.carritoService.localStorageCartProducts.length>0) {
-         for(let product of this.carritoService.localStorageCartProducts) {
+      if(this.embryoService.localStorageCartProducts && this.embryoService.localStorageCartProducts.length>0) {
+         for(let product of this.embryoService.localStorageCartProducts) {
             total += (product.price*product.quantity);
          }
          total += (this.embryoService.shipping+this.embryoService.tax);

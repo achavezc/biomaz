@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnChanges, Renderer2, ElementRef, ViewChild, AfterViewInit} from '@angular/core';
 import { Router, ActivatedRoute, Params }   from '@angular/router';
-import { CarritoService } from '../../Services/carrito.service';
+
 declare var $: any;
 
 import {EmbryoService } from '../../Services/Embryo.service';
@@ -26,7 +26,7 @@ export class ShopDetailsComponent implements OnInit, OnChanges {
 
    constructor(private route: ActivatedRoute,
                private router: Router, 
-               public embryoService : EmbryoService,public carritoService : CarritoService
+               public embryoService : EmbryoService
                ) {
                   this.embryoService.getContactInfo().valueChanges().subscribe(res => 
                      {
@@ -87,7 +87,7 @@ export class ShopDetailsComponent implements OnInit, OnChanges {
    }
 
    public addToCart(value:any) {
-      this.carritoService.addToCart(value);
+      this.embryoService.addToCart(value);
    }
 
    public buyNow(value:any) {

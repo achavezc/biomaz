@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EmbryoService } from '../../../Services/Embryo.service';
-import { CarritoService } from '../../../Services/carrito.service'
+
 
 @Component({
   selector: 'app-HomeThree',
@@ -87,7 +87,7 @@ export class HomeThreeComponent implements OnInit {
       ]
    };
 
-   constructor(public embryoService : EmbryoService,public carritoService : CarritoService) { }
+   constructor(public embryoService : EmbryoService) { }
 
    ngOnInit() {
       //this.getProducts();
@@ -155,7 +155,7 @@ export class HomeThreeComponent implements OnInit {
    }
 
    public addToCart(value) {
-      this.carritoService.addToCart(value);
+      this.embryoService.addToCart(value);
    }
 
    public addToWishlist(value) {

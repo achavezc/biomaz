@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { EmbryoService } from '../../../Services/Embryo.service';
 import { ProyectoService } from '../../../Services/proyecto.service';
-import { CarritoService } from '../../../Services/carrito.service';
+
 
 @Component({
    selector: 'app-DetailPage',
@@ -21,8 +21,7 @@ export class DetailPageComponent implements OnInit {
    constructor(private route: ActivatedRoute,
       private router: Router,
       public ProyectoService: ProyectoService,
-      public embryoService: EmbryoService,
-      public carritoService:CarritoService) {
+      public embryoService: EmbryoService) {
    }
 
    ngOnInit() {
@@ -112,7 +111,7 @@ export class DetailPageComponent implements OnInit {
    }
 
    public addToCart(value) {
-      this.carritoService.addToCart(value);
+      this.embryoService.addToCart(value);
    }
 
    public addToWishList(value) {

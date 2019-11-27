@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder,FormArray, Validators } from '@angular/forms';
 import { EmbryoService } from '../../../Services/Embryo.service';
 import { Router, NavigationEnd } from '@angular/router';
-import { CarritoService } from '../../../Services/carrito.service';
+
 
 @Component({
   selector: 'app-Payment',
@@ -69,7 +69,7 @@ export class PaymentComponent implements OnInit, AfterViewInit{
    paymentFormOne   : FormGroup;
 
    constructor(public embryoService : EmbryoService, 
-               public carritoService : CarritoService,
+              
                private formGroup : FormBuilder,
                public router: Router) {
 
@@ -132,8 +132,8 @@ export class PaymentComponent implements OnInit, AfterViewInit{
 
    public getCartProducts() {
       let total = 0;
-      if(this.carritoService.localStorageCartProducts && this.carritoService.localStorageCartProducts.length>0) {
-         for(let product of this.carritoService.localStorageCartProducts) {
+      if(this.embryoService.localStorageCartProducts && this.embryoService.localStorageCartProducts.length>0) {
+         for(let product of this.embryoService.localStorageCartProducts) {
             if(!product.quantity){
                product.quantity = 1;
             }

@@ -21,7 +21,7 @@ import { GlobalModule } from './Global/Global.module';
 import { TemplatesModule } from './Templates/Templates.module';
 import { MenuItems } from './Core/menu/menu-items/menu-items';
 import { EmbryoService } from './Services/Embryo.service';
-import { CarritoService } from './Services/carrito.service';
+//import { CarritoService } from './Services/carrito.service';
 import { AppComponent } from './app.component';
 import { MainComponent } from './Main/Main.component';
 import { HeaderOneComponent } from './Layouts/Header/HeaderOne/HeaderOne.component';
@@ -192,7 +192,6 @@ import {
    providers: [
       MenuItems,
       EmbryoService,
-      CarritoService,
       CategoriaService,
       ProyectoService,
       Platform,

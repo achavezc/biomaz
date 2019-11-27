@@ -18,8 +18,8 @@
           </ng-template>
         </div>
 
-        <div class="side-cart-wrapper" *ngIf="carritoService.localStorageCartProducts && carritoService.localStorageCartProducts.length>0">
-          <div class="side-cart-list px-3" *ngFor="let product of carritoService.localStorageCartProducts">
+        <div class="side-cart-wrapper" *ngIf="embryoService.localStorageCartProducts && embryoService.localStorageCartProducts.length>0">
+          <div class="side-cart-list px-3" *ngFor="let product of embryoService.localStorageCartProducts">
             <div fxLayoutAlign="center center">
                 <div fxFlex.xs="25" fxFlex.sm="25" fxFlex.md="25" fxFlex.lg="25" fxFlex.xl="25">
                 <img [src]="product?.image" width="80" alt="cart img">

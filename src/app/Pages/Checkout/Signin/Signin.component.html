@@ -1,7 +1,7 @@
   
 <embryo-PageTitle heading="Checkout"></embryo-PageTitle>
 
-<div class="bg-white shop-by-category section-gap" *ngIf="(carritoService.localStorageCartProducts && carritoService.localStorageCartProducts.length>0); else elseBlock">
+<div class="bg-white shop-by-category section-gap" *ngIf="(embryoService.localStorageCartProducts && embryoService.localStorageCartProducts.length>0); else elseBlock">
   <div class="checkout-option">
     <div class="container">
       <div class="view-cart text-right mb-5">
