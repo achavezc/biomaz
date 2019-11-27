@@ -22,12 +22,19 @@ export class ShopDetailsComponent implements OnInit, OnChanges {
    sizeArray     : number[] = [36,38,40,42,44,46,48];
    quantityArray : number[] = [1,2,3,4,5,6,7,8,9,10];
    productReviews : any;
+   contactInfo  : any;
 
    constructor(private route: ActivatedRoute,
                private router: Router, 
                public embryoService : EmbryoService,public carritoService : CarritoService
                ) {
+                  this.embryoService.getContactInfo().valueChanges().subscribe(res => 
+                     {
+                        this.contactInfo = res
+                     }
+                     );
       this.embryoService.getProductReviews().valueChanges().subscribe(res => {this.productReviews = res});
+      
    }
 
    ngOnInit() {

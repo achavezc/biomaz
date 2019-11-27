@@ -20,7 +20,7 @@ export class ProductsListComponent implements OnInit, OnDestroy {
    @Input() nameCategoria : any ;
    @Input() idCategoria : any ;
    @Input() content : any ;
-   show = false;
+   showMore = false;
 
 
    @ViewChild(MatPaginator) paginator: MatPaginator;

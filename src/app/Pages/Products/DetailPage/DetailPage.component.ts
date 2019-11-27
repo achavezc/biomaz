@@ -10,7 +10,7 @@ import { CarritoService } from '../../../Services/carrito.service';
    styleUrls: ['./DetailPage.component.scss']
 })
 export class DetailPageComponent implements OnInit {
-   contactInfo  : any;
+ 
    public images: string[] = [];
    id: any;
    type: any;
@@ -23,8 +23,6 @@ export class DetailPageComponent implements OnInit {
       public ProyectoService: ProyectoService,
       public embryoService: EmbryoService,
       public carritoService:CarritoService) {
-
-         this.embryoService.getContactInfo().valueChanges().subscribe(res => {this.contactInfo = res});
    }
 
    ngOnInit() {
@@ -77,7 +75,26 @@ export class DetailPageComponent implements OnInit {
                "tipo": response.Tipo,
                "formato1": response.Formato1,
                "formato2": response.Formato2,
-               "cantidadEstimada": response.CantidadEstimada
+               "cantidadEstimada": response.CantidadEstimada,
+               "departamento": response.Departamento,
+               "provincia": response.Provincia,
+               "distrito": response.Distrito,
+               "caserioPueblo": response.CaserioPueblo,
+               "direccion": response.Direccion,
+               "apellidosGestor": response.ApellidosGestor,
+               "nombresGestor": response.NombresGestor,
+               "tipoDocumentoGestor": response.TipoDocumentoGestor,
+               "numeroDocumentoGestor": response.NumeroDocumentoGestor,
+               "apellidosCuidador": response.ApellidosCuidador,
+               "nombresCuidador": response.NombresCuidador,
+               "sexoCuidador": response.SexoCuidador,
+               "tipoDocumentoCuidador": response.TipoDocumentoCuidador,
+               "numeroDocumentoCuidador": response.NumeroDocumentoCuidador,
+               "fechaNacimientoCuidador": response.FechaNacimientoCuidador,
+               "estadoCivilCuidador": response.EstadoCivilCuidador,
+               "gradoInstruccionCuidador": response.GradoInstruccionCuidador,
+               "numeroHijosCuidador": response.NumeroHijosCuidador,
+               "numeroDependientesCuidador": response.NumeroDependientesCuidador
             }
             this.singleProductData = obj;
          });

@@ -32,6 +32,7 @@ export class MapComponent implements OnInit {
    constructor() { }
 
    ngOnInit() {
+      this.address = "1899 Cemetery Street,MEDFORD - 1452451 New York";
       if(this.address) {
          this.getLatitudeLongitude(this.address);
       }

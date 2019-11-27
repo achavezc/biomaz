@@ -35,11 +35,6 @@
             <div class="product-detail-content">
               <a href="javascript:void(0)" [routerLink]="['/']">Back to Shop</a>
               <h3>{{detailData?.name}}</h3>
-              <!-- <div fxLayoutAlign="start center" class="mb-3">
-                <div>
-                  <a href="javascript:void(0)" class="text-underline" (click)="reviewPopup(detailData)">ADD A REVIEW</a>
-                </div>
-              </div> -->
               <div class="product-detail-price">
                 <h4 class="accent-color">{{totalPrice | currency:currency}} </h4>
               </div>
@@ -65,64 +60,109 @@
                 <p>{{detailData?.description}}
                 </p>
               </div>
-     <!--          <div class="bullets-points">
-                <ul class="bullets-list">
-                  <li *ngFor="let feature of detailData?.features">
-                    {{feature}}
-                  </li>
-                </ul>
-              </div> -->
-              <!-- <div fxLayoutGap="30px" class="mb-3 select-group">
-                <ng-container *ngIf="type == 'men' || type == 'women'">
-                  <mat-form-field>
-                    <mat-select class="product-detail-select" placeholder="Color">
-                      <ng-container *ngFor="let color of colorsArray">
-                        <mat-option class="product-detail-select" value="{{color}}">{{color}}</mat-option>
-                      </ng-container>
-                    </mat-select>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <mat-select placeholder="Size">
-                      <ng-container *ngFor = "let size of sizeArray">
-                        <mat-option value="{{size}}">{{size}}</mat-option>
-                      </ng-container>
-                    </mat-select>
-                  </mat-form-field>
-                </ng-container>
-                <mat-form-field>
-                  <mat-select placeholder="Quantity" (selectionChange)="calculatePrice(detailData, $event.value)">
-                    <ng-container *ngFor="let quantity of quantityArray">
-                      <mat-option value="{{quantity}}">{{quantity}}</mat-option>
-                    </ng-container>
-                  </mat-select>
-                </mat-form-field>
-              </div> -->
-              <div class="mb-4">
-                <a href="javascript:void(0)" class="text-underline" (click)="addToWishlist(detailData)"> Add To Wishlist</a>
-              </div>
               <div class="mb-5 detail-btns">
                 <button mat-raised-button color="accent" class="button-lg mr-3" (click)="addToCart(detailData)">Add To Cart</button>
-                <!-- <button class="button-lg" mat-raised-button (click)="buyNow(detailData)">Buy Now</button> -->
               </div>
-         <!--      <div fxLayoutAlign="start center">
-                <div class="mr-3"> <span>Share Now</span></div>
-                <div class="detail-product-share">
-                  <embryo-SocialShare></embryo-SocialShare>
-                </div>
-              </div> -->
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div fxLayout='row wrap' fxLayoutAlign="center center" class="col-gap">
-        <div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md=90 fxFlex.lg="80" fxFlex.xl="90">
-            Ubicación
-        </div>
-        <div class="contact-map">
-            <embryo-Map [address]="contactInfo?.address"></embryo-Map>
-        </div>
-    </div>
+   
+    <mat-card>
+        <h4>Información de Ubicación</h4>
+        <ul class="no-style mb-4">
+            <li>
+              <span class="font-medium"> Departamento </span>: 
+                <span *ngIf="detailData?.availablity">{{detailData?.departamento}}</span>
+            </li>
+            <li>
+              <span class="font-medium">Provincia </span>: {{detailData?.provincia}}
+            </li>
+            <li>
+              <span class="font-medium">Distrito </span>: {{detailData?.distrito}}
+            </li>
+            <li>
+              <span class="font-medium">Caserio / Pueblo </span>: {{detailData?.caserioPueblo}}
+            </li>
+            <li>
+              <span class="font-medium">Dirección </span>: {{detailData?.direccion}}
+            </li>
+          </ul>
+      <div class="contact-map">
+          <embryo-Map [address]="contactInfo?.address | async"></embryo-Map>
+      </div>
+
+      </mat-card>
+ 
+        <br>
+        <br>
+
+        <mat-card>
+            <h4>Información de Personal Gestor</h4>
+        <ul class="no-style mb-4">
+            <li>
+              <span class="font-medium"> Apellidos </span>: 
+                <span *ngIf="detailData?.availablity">{{detailData?.apellidosGestor}}</span>
+            </li>
+            <li>
+              <span class="font-medium">Nombres </span>: {{detailData?.nombresGestor}}
+            </li>
+            <li>
+              <span class="font-medium">Tipo Documento </span>: {{detailData?.tipoDocumentoGestor}}
+            </li>
+            <li>
+              <span class="font-medium">Nro. Documento </span>: {{detailData?.numeroDocumentoGestor}}
+            </li>
+       
+          </ul>
+        </mat-card>
+
+          <br>
+          <br>
+
+          <mat-card>
+              <h4>Información de Personal Cuidador</h4>
+
+          <ul class="no-style mb-4">
+              <li>
+                <span class="font-medium"> Apellidos </span>: 
+                  <span *ngIf="detailData?.availablity">{{detailData?.apellidosCuidador}}</span>
+              </li>
+              <li>
+                <span class="font-medium">Nombres </span>: {{detailData?.nombresCuidador}}
+              </li>
+              <li>
+                <span class="font-medium">Tipo Documento </span>: {{detailData?.tipoDocumentoCuidador}}
+              </li>
+              <li>
+                <span class="font-medium">Nro. Documento </span>: {{detailData?.numeroDocumentoCuidador}}
+              </li>
+
+              <li>
+                  <span class="font-medium"> Sexo </span>: 
+                    <span *ngIf="detailData?.availablity">{{detailData?.sexoCuidador}}</span>
+                </li>
+                <li>
+                  <span class="font-medium">Fecha Nacimiento </span>: {{detailData?.fechaNacimientoCuidador}}
+                </li>
+                <li>
+                  <span class="font-medium">Estado Civil </span>: {{detailData?.estadoCivilCuidador}}
+                </li>
+                <li>
+                  <span class="font-medium">Grado de Instrucción </span>: {{detailData?.gradoInstruccionCuidador}}
+                </li>
+
+                <li>
+                    <span class="font-medium">Hijos </span>: {{detailData?.numeroHijosCuidador}}
+                  </li>
+                  <li>
+                      <span class="font-medium">Dependientes </span>: {{detailData?.numeroDependientesCuidador}}
+                    </li>
+              
+         
+            </ul>
+          </mat-card>
   </div>
 </div>
