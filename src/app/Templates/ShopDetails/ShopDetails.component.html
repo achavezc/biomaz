@@ -60,6 +60,15 @@
                 <p>{{detailData?.description}}
                 </p>
               </div>
+              <div fxLayoutGap="30px" class="mb-3 select-group">               
+                <mat-form-field>
+                  <mat-select placeholder="Cantidad" (selectionChange)="calculatePrice(detailData, $event.value)">
+                    <ng-container *ngFor="let quantity of quantityArray">
+                      <mat-option value="{{quantity}}">{{quantity}}</mat-option>
+                    </ng-container>
+                  </mat-select>
+                </mat-form-field>
+              </div> 
               <div class="mb-5 detail-btns">
                 <button mat-raised-button color="accent" class="button-lg mr-3" (click)="addToCart(detailData)">Add To Cart</button>
               </div>

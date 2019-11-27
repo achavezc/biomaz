@@ -2,6 +2,7 @@ import { Component, OnInit,ViewChild } from '@angular/core';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 
 import { EmbryoService } from '../../Services/Embryo.service';
+import { CarritoService } from '../../Services/carrito.service';
 
 @Component({
   selector: 'embryo-PaymentDetailSideBar',
@@ -14,6 +15,7 @@ export class PaymentDetailSideBarComponent implements OnInit {
    popupResponse : any;
 
    constructor(public embryoService: EmbryoService,
+               public carritoService: CarritoService,
                private loadingBar: LoadingBarService) { }
 
    ngOnInit() {
@@ -21,8 +23,8 @@ export class PaymentDetailSideBarComponent implements OnInit {
 
    public calculateTotalPrice() {
       let subtotal = 0;
-      if(this.embryoService.localStorageCartProducts && this.embryoService.localStorageCartProducts.length>0) {
-         for(let product of this.embryoService.localStorageCartProducts) {
+      if(this.carritoService.localStorageCartProducts && this.carritoService.localStorageCartProducts.length>0) {
+         for(let product of this.carritoService.localStorageCartProducts) {
             subtotal += (product.price *product.quantity) ;
          }
       }
@@ -54,8 +56,8 @@ export class PaymentDetailSideBarComponent implements OnInit {
 
    public getTotalPrice() {
       let total = 0;
-      if(this.embryoService.localStorageCartProducts && this.embryoService.localStorageCartProducts.length>0) {
-         for(let product of this.embryoService.localStorageCartProducts) {
+      if(this.carritoService.localStorageCartProducts && this.carritoService.localStorageCartProducts.length>0) {
+         for(let product of this.carritoService.localStorageCartProducts) {
             total += (product.price*product.quantity);
          }
          total += (this.embryoService.shipping+this.embryoService.tax);

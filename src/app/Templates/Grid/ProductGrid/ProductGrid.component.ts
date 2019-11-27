@@ -55,7 +55,7 @@ export class ProductGridComponent implements OnInit {
 
    public checkCartAlready(singleProduct) {
       let products = JSON.parse(localStorage.getItem("cart_item")) || [];
-      if (!products.some((item) => item.name == singleProduct.name)) {
+      if (!products.some((item) => item.id == singleProduct.id)) {
          return true;
       }
    }

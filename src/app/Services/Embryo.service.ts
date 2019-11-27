@@ -51,23 +51,17 @@ export class EmbryoService {
       localStorage.removeItem("user");
       localStorage.removeItem("byProductDetails");
 
-      /* this.db.object("products").valueChanges().subscribe(res =>
+      this.db.object("products").valueChanges().subscribe(res =>
           {
-             this.setCartItemDefaultValue(res['gadgets'][1])
+             this.setCartItemDefaultValue()
            }
-          ); */
+          ); 
    }
 
-   public setCartItemDefaultValue(setCartItemDefaultValue) {
+   public setCartItemDefaultValue() 
+   {
       let products : any;
-      products = JSON.parse(localStorage.getItem("cart_item")) || [];
-      let found = products.some(function (el, index) {
-         if(el.name == setCartItemDefaultValue.name){
-            return  true;
-         }
-      });
-      if (!found) { products.push(setCartItemDefaultValue); }
-
+      products = JSON.parse(localStorage.getItem("cart_item")) || [];  
       localStorage.setItem("cart_item", JSON.stringify(products));
       this.carritoService.calculateLocalCartProdCounts();
    }
