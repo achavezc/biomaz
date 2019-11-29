@@ -1,3 +1,4 @@
+<!--div  *ngIf="embryoService?.isLoggedIn().Autenticado"-->
 <button mat-mini-fab class="log-in-user" [matMenuTriggerFor]="loginuser">
   <img src="assets/images/log-in-user.jpg" width="250" height="250" alt="log-in-user">
 </button>
@@ -8,3 +9,5 @@
   <button mat-menu-item [routerLink]="['/account/profile']"> <i class="material-icons mr-1">local_post_office</i> <span>Messages</span></button>
   <button mat-menu-item [routerLink]="['/session/signin']"><i class="material-icons mr-1">power_settings_new</i><span>Logout</span></button>
 </mat-menu>
+
+<!--div -->

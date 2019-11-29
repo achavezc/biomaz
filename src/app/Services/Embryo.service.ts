@@ -380,7 +380,8 @@ export class EmbryoService {
          data.quantity = 1
        }
 
-       let found = products.some(function (el, index) {
+       let found = products.some(function (el, index) 
+       {
           if(el.id == data.id)
           {      
              products[index]['quantity'] = data.quantity;
@@ -399,7 +400,8 @@ export class EmbryoService {
             name: data.name,
             title: data.name,
             quantity: data.quantity,
-            price: data.price
+            price: data.price,
+            state:true
            } 
         
           products.push(carritoItem); 
@@ -520,6 +522,36 @@ public calculateLocalCartProdCounts() {
           ); 
   }
 
+  private actualizarCarritoMasivo(miembroId:number, carritoCompra: any)
+  {
+      const url = `${host}CarritoCompra` + '/ActualizarCarritoCompraMasivo';
+      let body:any =[];
+
+        carritoCompra.map(aux => {
+         body.push({
+             
+         ProyectoId: aux.id,
+         CarritoCompraId : aux.carritoid,
+         MiembroId: miembroId,
+         Cantidad: aux.quantity,      
+         Estado: aux.state
+         })
+         
+     });     
+
+
+      let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      return this.http.post<any>(url, body, { headers: headers })
+          .pipe(tap(data =>
+          {              
+            console.log('service actualizarCarrito correctamente');            
+
+            return true;
+          }),
+              catchError(this.handleError)
+          ); 
+  }
+
    //End Carrito
 
 
@@ -543,7 +575,18 @@ public calculateLocalCartProdCounts() {
            .pipe(tap(data =>
            {                    
                if (data.Token != null)
-               {                   
+               {   
+                  
+                  let toastOption: ToastOptions = {
+                     title: "Iniciando Sesión",
+                     msg: "Usuario auntenticado con exito.",
+                     showClose: true,
+                     timeout: 1000,
+                     theme: "material"
+                  };
+            
+                  this.toastyService.wait(toastOption);
+
                    localStorage.setItem('currentUser', JSON.stringify(data));
 
                    let products : any;
@@ -565,7 +608,8 @@ public calculateLocalCartProdCounts() {
                            price: aux.Precio,      
                            name: aux.NombreProyecto,
                            title: aux.NombreProyecto,
-                           quantity: aux.Cantidad        
+                           quantity: aux.Cantidad, 
+                           state: null      
                            })
                            
                        });                                                
@@ -577,6 +621,7 @@ public calculateLocalCartProdCounts() {
                                if(el.id == products[i]['id'])
                                {      
                                carrito[index]['quantity']  = Number(carrito[index]['quantity']) + Number(products[i]['quantity']);
+                               carrito[index]['state'] = true;
                                return  true;
                                }
                            });   
@@ -592,23 +637,29 @@ public calculateLocalCartProdCounts() {
                        this.calculateLocalCartProdCounts();
                    }
                    else //no existe carrito en el servidor
-                   {
-                       
+                   {                       
                        localStorage.setItem("cart_item", JSON.stringify(products));
                    }      
                    
-                    
-                   let toastOption: ToastOptions = {
-                     title: "Iniciando Sesión",
-                     msg: "Usuario auntenticado con exito.",
-                     showClose: true,
-                     timeout: 1000,
-                     theme: "material"
-                  };
-            
-                  this.toastyService.wait(toastOption);
+                    let carritoActualizar = carrito.filter(item=> (item.carritoid ==null)|| (item.carritoid != null && item.state) );
+                  
+                   if(carritoActualizar.length>0)
+                   {
+                     this.actualizarCarritoMasivo(data.MiembroId,carritoActualizar).subscribe(
+                        response => 
+                        {     
+                           console.log('actualizarCarrito correctamente'); 
+                           this.goToHome();
+                            
+                        }); 
 
-                  this.goToHome();
+                   } 
+                   else
+                   {
+                     this.goToHome();
+                   }
+
+                  
 
                    // return true to indicate successful login
                    return data;

@@ -5,7 +5,7 @@
   <div class="checkout-option">
     <div class="container">
       <div class="view-cart text-right mb-5">
-        <button mat-raised-button color="accent" (click)="toggleRightSidenav()">Show Order Detail :
+        <button mat-raised-button color="accent" (click)="toggleRightSidenav()">Ver Detalle de Orden :
           {{getCartProducts() | currency:embryoService?.currency}}</button>
       </div>
       <div fxLayout="row wrap" fxLayoutAlign="none" class="col-gap">
@@ -32,7 +32,7 @@
     <div class="mb-4">
     <img src="assets/images/empty-cart.png" height="128" width="128" alt="cart-empty">
   </div>
-    <h4> Your Shopping Bag is empty.</h4>
+    <h4> Tú Carrito de Compras está vacio.</h4>
     <a href="javascript:void(0)" class="primary-color" [routerLink]="['/']">Go for Shopping</a>
   </div>
 </ng-template>
