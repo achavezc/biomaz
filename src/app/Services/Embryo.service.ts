@@ -668,6 +668,15 @@ public calculateLocalCartProdCounts() {
                {
                   //this.alertPopup("Usuario Incorrecto");
                    // return false to indicate failed login
+                   let toastOption: ToastOptions = {
+                     title: "Iniciando Sesión",
+                     msg: "Usuario o Password incorrecto",
+                     showClose: true,
+                     timeout: 1000,
+                     theme: "material"
+                  };
+            
+                  this.toastyService.wait(toastOption);
                    return null;
                }
            }),

@@ -6,7 +6,7 @@
           <div class="mb-3"> <i class="material-icons">
               shopping_cart
             </i></div>
-          <h5 *ngIf="(embryoService.localStorageCartProducts && embryoService.localStorageCartProducts.length>0); else elseCartBlock;">Tú tienes {{embryoService.localStorageCartProducts.length}} proyectos en tu carrito</h5>
+          <h5 *ngIf="(embryoService.localStorageCartProducts && embryoService.localStorageCartProducts.length>0); else elseCartBlock;">Tienes {{embryoService.localStorageCartProducts.length}} proyectos en tu carrito</h5>
           <ng-template #elseCartBlock>
               <div class="section-gap-lg text-center">
                   <div class="mb-4">
@@ -46,12 +46,12 @@
             <div>
               <p>Subtotal</p><span fxFlex></span> {{calculateTotalPrice() | currency:embryoService?.currency}}
             </div>
-            <div>
+           <!--  <div>
               <p>Shipping</p><span fxFlex></span> {{embryoService.shipping | currency:embryoService?.currency}}
             </div>
             <div>
               <p>Tax(GST)</p><span fxFlex></span> {{embryoService.tax | currency:embryoService?.currency}}
-            </div>
+            </div> -->
             <hr class="spacer">
             <div class="mb-4">
               <h4>Total</h4><span fxFlex></span>

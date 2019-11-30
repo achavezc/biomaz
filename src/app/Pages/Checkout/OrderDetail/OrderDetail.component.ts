@@ -5,11 +5,11 @@ import { EmbryoService } from '../../../Services/Embryo.service';
 declare var $: any;
 
 @Component({
-  selector: 'app-FinalReceipt',
-  templateUrl: './FinalReceipt.component.html',
-  styleUrls: ['./FinalReceipt.component.scss']
+  selector: 'app-OrderDetail',
+  templateUrl: './OrderDetail.component.html',
+  styleUrls: ['./OrderDetail.component.scss']
 })
-export class FinalReceiptComponent implements OnInit {
+export class OrderDetailComponent implements OnInit {
 
    deliveryDate : any;
    products     : any;
@@ -17,8 +17,8 @@ export class FinalReceiptComponent implements OnInit {
    todayDate    : any = new Date();
 
    constructor(public embryoService: EmbryoService, public router: Router) {
-      // this.getDeliveryDate();
-      // this.userDetails = JSON.parse(localStorage.getItem("user"));
+      this.getDeliveryDate();
+      this.userDetails = JSON.parse(localStorage.getItem("user"));
    }
 
    ngOnInit() {
@@ -40,40 +40,35 @@ export class FinalReceiptComponent implements OnInit {
 
    public calculateTotalPrice() {
       let subtotal = 0;
-      if(this.embryoService.localStorageCartProducts && this.embryoService.localStorageCartProducts.length>0) {
-         for(let product of this.embryoService.localStorageCartProducts) {
-            subtotal += (product.price *product.quantity);
+      if(this.embryoService.buyUserCartProducts && this.embryoService.buyUserCartProducts.length>0) {
+         for(let product of this.embryoService.buyUserCartProducts) {
+            if(!product.quantity){
+               product.quantity = 1;
+            }
+            subtotal += (product.price *product.quantity) ;
          }
          return subtotal;
       }
       return subtotal;
-      
    }
 
    public getTotalPrice() {
       let total = 0;
-      if(this.embryoService.localStorageCartProducts && this.embryoService.localStorageCartProducts.length>0) {
-         for(let product of this.embryoService.localStorageCartProducts) {
+      if(this.embryoService.buyUserCartProducts && this.embryoService.buyUserCartProducts.length>0) {
+         for(let product of this.embryoService.buyUserCartProducts) {
+            if(!product.quantity){
+               product.quantity = 1;
+            }
             total += (product.price*product.quantity);
          }
          total += (this.embryoService.shipping+this.embryoService.tax);
          return total;
       }
-
       return total;
-      
-   }
-
-   public getQuantityValue(product) {
-      if(product.quantity) {
-         return product.quantity
-      } else {
-         return 1;
-      }
    }
 
    public goToHome() {
-      // this.embryoService.removeBuyProducts();
+      this.embryoService.removeBuyProducts();
       this.router.navigate(['/']);
    }
 
@@ -85,12 +80,5 @@ export class FinalReceiptComponent implements OnInit {
       window.print();
       printContents.remove();
       originalContents.show();
-   }
-
-   public procesarOrden() 
-   {
-      
-     
-
    }
 }
