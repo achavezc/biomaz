@@ -5,7 +5,7 @@ import { NgAisModule } from 'angular-instantsearch';
 import { SessionRoutes } from './Session.routing';
 import { GlobalModule } from '../../Global/Global.module';
 import { TemplatesModule } from '../../Templates/Templates.module';
-
+import { FormsModule, ReactiveFormsModule }    from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule, 
    MatCardModule, 
@@ -37,7 +37,7 @@ import { RegisterComponent } from './Register/Register.component';
 import { SignInComponent } from './SignIn/SignIn.component';
 import { ForgotPasswordComponent } from './ForgotPassword/ForgotPassword.component';
 import { ThankYouComponent } from './ThankYou/ThankYou.component';
-
+import { RegisterProcesssedComponent } from './RegisterProcesssed/RegisterProcesssed.component';
 @NgModule({
    imports: [
       CommonModule,
@@ -69,13 +69,17 @@ import { ThankYouComponent } from './ThankYou/ThankYou.component';
       MatGridListModule,
       GlobalModule,
       TemplatesModule,
-      NgAisModule
+      NgAisModule,
+      FormsModule,
+      ReactiveFormsModule,
    ],
    declarations: [
       RegisterComponent,
       SignInComponent,
       ThankYouComponent,
-      ForgotPasswordComponent
+      ForgotPasswordComponent,
+      RegisterProcesssedComponent
+
    ]
 })
 export class SessionModule { }

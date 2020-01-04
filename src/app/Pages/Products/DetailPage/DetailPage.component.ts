@@ -93,7 +93,10 @@ export class DetailPageComponent implements OnInit {
                "estadoCivilCuidador": response.EstadoCivilCuidador,
                "gradoInstruccionCuidador": response.GradoInstruccionCuidador,
                "numeroHijosCuidador": response.NumeroHijosCuidador,
-               "numeroDependientesCuidador": response.NumeroDependientesCuidador
+               "numeroDependientesCuidador": response.NumeroDependientesCuidador,
+               "coordenadasLatitud": response.CoordenadasLatitud,
+               "coordenadasLongitud": response.CoordenadasLongitud,
+
             }
             this.singleProductData = obj;
          });

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder,FormArray, Validators } from '@angular/forms';
+import { EmbryoService } from '../../Services/Embryo.service';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { ToastaService, ToastaConfig, ToastOptions, ToastData} from 'ngx-toasta';
 
 @Component({
   selector: 'embryo-ContactForm',
@@ -10,8 +13,12 @@ export class ContactFormComponent implements OnInit {
 
    contactForm  : FormGroup;
    emailPattern : any = /\S+@\S+\.\S+/;
+   @BlockUI() blockUI: NgBlockUI;
+   
+   
 
-   constructor(private formGroup : FormBuilder) { }
+
+   constructor(private formGroup : FormBuilder, public embryoService: EmbryoService,private toastyService: ToastaService) { }
 
    ngOnInit() {
       this.contactForm = this.formGroup.group({
@@ -26,9 +33,39 @@ export class ContactFormComponent implements OnInit {
    public submitForm() {
       if(this.contactForm.valid)
       {
-         console.log(this.contactForm.value)
-      } else {
-         for (let i in this.contactForm.controls) {
+         this.blockUI.start("Enviando Mensaje...");
+
+           this.embryoService.contactar(this.contactForm.controls['first_name'].value,this.contactForm.controls['last_name'].value,
+          this.contactForm.controls['email'].value,this.contactForm.controls['subject'].value,this.contactForm.controls['message'].value).subscribe(
+            response => 
+            {     
+               
+
+                console.log(response);
+
+                
+                let toastOption: ToastOptions = {
+                     title: "Contáctanos",
+                     msg: "Mensaje enviado con exito.",
+                     showClose: true,
+                     timeout: 1000,
+                     theme: "material"
+                  };
+            
+                  this.toastyService.success(toastOption);       
+                  
+                  
+                  this.contactForm.reset();
+                  
+                  
+                
+                  this.blockUI.stop();
+            });  
+      } 
+      else 
+      {
+         for (let i in this.contactForm.controls) 
+         {
             this.contactForm.controls[i].markAsTouched();
          }
       }

@@ -71,7 +71,7 @@ export class CartComponent implements OnInit, AfterViewChecked {
          for(let product of this.embryoService.localStorageCartProducts) {
             total += (product.price*product.quantity);
          }
-         total += (this.embryoService.shipping+this.embryoService.tax);
+         // total += (this.embryoService.shipping+this.embryoService.tax);
          return total;
       }
 
@@ -80,12 +80,15 @@ export class CartComponent implements OnInit, AfterViewChecked {
    }
 
    public checkout() {
-      //this.embryoService.updateAllLocalCartProduct(this.embryoService.localStorageCartProducts);
+      
+      
      
 
-      if(this.embryoService.isLoggedIn().Autenticado)
+      var usuario = this.embryoService.isLoggedIn();
+
+      if(usuario.Autenticado)
       {
-         this.router.navigate(['/checkout/final-receipt']);
+         this.embryoService.updateAllLocalCartProduct(this.embryoService.localStorageCartProducts,usuario.MiembroId);         
       }
       else
       {

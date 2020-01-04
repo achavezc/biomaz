@@ -34,6 +34,7 @@ import { CheckoutRoutes } from './Checkout.routing';
 import { PaymentComponent } from './Payment/Payment.component';
 import { SigninComponent } from './Signin/Signin.component';
 import { FinalReceiptComponent } from './FinalReceipt/FinalReceipt.component';
+import { PaymentProcesssedComponent } from './PaymentProcesssed/PaymentProcesssed.component';
 
 import { GlobalModule } from '../../Global/Global.module';
 
@@ -75,7 +76,8 @@ import { GlobalModule } from '../../Global/Global.module';
    declarations: [
       PaymentComponent,
       SigninComponent,
-      FinalReceiptComponent
+      FinalReceiptComponent,
+      PaymentProcesssedComponent
    ]
 })
 export class CheckoutModule { }

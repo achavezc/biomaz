@@ -10,9 +10,15 @@ import 'rxjs/Rx';
 import {host} from '../shared/hosts/main.host';
 import { ReviewPopupComponent } from '../Global/ReviewPopup/ReviewPopup.component';
 import { ConfirmationPopupComponent } from '../Global/ConfirmationPopup/ConfirmationPopup.component';
+
+import { ConfirmationActionPopupComponent } from '../Global/ConfirmationActionPopup/ConfirmationActionPopup.component';
+
 //import { AlertPopupComponent } from '../Global/AlertPopup/AlertPopup.component';
 //import { CarritoService } from '../Services/carrito.service';
 import { Router, ActivatedRoute, Params }   from '@angular/router';
+import {ErrorHandling} from '../shared/utils/error-handling';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+
 interface Response {
   data     : any;
 }
@@ -21,14 +27,17 @@ interface Response {
    providedIn: 'root'
 })
 
-export class EmbryoService {
+export class EmbryoService
+ {
 
+   @BlockUI() blockUI: NgBlockUI;
    sidenavOpen                 : boolean = false;
    paymentSidenavOpen          : boolean = false;
    isDirectionRtl              : boolean = false;
    esUsuarioAutenticado              : boolean = false;
    featuredProductsSelectedTab : any = 0;
    newArrivalSelectedTab       : any = 0;
+   
 
    /**** Get currency code:- https://en.wikipedia.org/wiki/ISO_4217 *****/
    currency  : string = 'PEN ';
@@ -50,7 +59,8 @@ export class EmbryoService {
                private db: AngularFireDatabase,
                private toastyService: ToastaService,   
                private router: Router,         
-               private toastyConfig: ToastaConfig) { 
+               private toastyConfig: ToastaConfig,
+               private errorHandling: ErrorHandling) { 
 
       this.toastyConfig.position = "top-right";
       this.toastyConfig.theme = "material";
@@ -69,8 +79,12 @@ export class EmbryoService {
    {
       let products : any;
       products = JSON.parse(localStorage.getItem("cart_item")) || [];  
-      localStorage.setItem("cart_item", JSON.stringify(products));
-      this.calculateLocalCartProdCounts();
+
+      if(products.length>0)
+      {
+         localStorage.setItem("cart_item", JSON.stringify(products));
+         this.calculateLocalCartProdCounts();
+      }
    }
 
    public reviewPopup(singleProductDetails, reviews)
@@ -108,12 +122,37 @@ export class EmbryoService {
       return confirmationPopup.afterClosed();
    }
 
+  
+
+
+   public confirmationActionPopup(message:string)
+   {
+      let confirmationPopup: MatDialogRef<ConfirmationActionPopupComponent>;
+      confirmationPopup = this.dialog.open(ConfirmationActionPopupComponent);
+      confirmationPopup.componentInstance.message = message;
+
+      return confirmationPopup.afterClosed();
+   }
+
    public getProducts() {
       this.products = this.db.object("products");
       return this.products;
    }
 
-   
+   public checkout() 
+   {
+
+      var usuario = this.isLoggedIn();
+
+      if(usuario.Autenticado)
+      {
+         this.updateAllLocalCartProduct(this.localStorageCartProducts,usuario.MiembroId);         
+      }
+      else
+      {
+         this.router.navigate(['/checkout'])
+      }
+   }
 
    public buyNow(data:any) {
       let products : any;
@@ -132,10 +171,57 @@ export class EmbryoService {
       this.calculateLocalCartProdCounts();
    }
 
-   public updateAllLocalCartProduct(products:any) {
-      localStorage.removeItem('cart_item');
+   public updateAllLocalCartProduct(products:any,miembroId:number) 
+   {
+      let productsCar : any;
+      productsCar = JSON.parse(localStorage.getItem("cart_item")) || [];
 
-      localStorage.setItem("cart_item", JSON.stringify(products))
+      let productsLength = products.length;
+      
+      var carritoActualizado:any =[];
+
+      if(productsLength > 0)
+      {
+         for(let i = 0; i < productsLength; i++) 
+         {
+               let found = productsCar.some(function (el, index) 
+               {
+                  if(el.id == products[i]['id'] && el.quantity != Number(products[i]['quantity']))
+                  {   
+                     carritoActualizado.push(
+                        {
+                       
+                        ProyectoId: el.id,
+                        CarritoCompraId : el.carritoid,
+                        MiembroId: miembroId,
+                        Cantidad: Number(products[i]['quantity']),      
+                        Estado: true
+                        }) 
+                     return  true;
+                  }
+               });            
+         }   
+         
+         if(carritoActualizado.length > 0)
+         {
+            this.actualizarCarritoMasivo(miembroId,carritoActualizado).subscribe(
+               response => 
+               {     
+                  localStorage.removeItem('cart_item');
+
+                  localStorage.setItem("cart_item", JSON.stringify(products))
+                  
+                  this.router.navigate(['/checkout/final-receipt']);
+                  
+               }); 
+            
+         }
+         else
+         {
+            this.router.navigate(['/checkout/final-receipt']);
+         }
+        
+      }
    }
 
    
@@ -384,7 +470,7 @@ export class EmbryoService {
        {
           if(el.id == data.id)
           {      
-             products[index]['quantity'] = data.quantity;
+             products[index]['quantity'] = Number(data.quantity);
              return  true;
           }
        });
@@ -399,7 +485,7 @@ export class EmbryoService {
             image: data.image,
             name: data.name,
             title: data.name,
-            quantity: data.quantity,
+            quantity: Number(data.quantity),
             price: data.price,
             state:true
            } 
@@ -416,14 +502,11 @@ export class EmbryoService {
        }
 
 
-
-      this.toastyService.wait(toastOption);      
-
-      localStorage.setItem("cart_item", JSON.stringify(products));
-
-      this.calculateLocalCartProdCounts();
+      this.toastyService.wait(toastOption);         
 
       let usuario = this.isLoggedIn();
+
+      localStorage.setItem("cart_item", JSON.stringify(products));
 
        if(usuario.Autenticado)
        {             
@@ -437,13 +520,43 @@ export class EmbryoService {
          this.actualizarCarrito(codigoCarritoCompra,usuario.MiembroId,data.id,data.quantity, true).subscribe(
             response => 
             {     
+
+               let products : any;
+               products = JSON.parse(localStorage.getItem("cart_item")) || [];
+               
+
+               let found = products.some(function (el, index) 
+               {
+                  if(el.id == response.ProyectoId)
+                  {      
+                     products[index]['carritoid'] =response.CarritoCompraId;
+                     localStorage.setItem("cart_item", JSON.stringify(products));
+                     return  true;
+                  }
+               });
+
+               localStorage.setItem("cart_item", JSON.stringify(products));
+
+               this.calculateLocalCartProdCounts();
+
                console.log('actualizarCarrito correctamente'); 
                 
             }); 
        }
+       else
+       {
+         localStorage.setItem("cart_item", JSON.stringify(products));
+
+         this.calculateLocalCartProdCounts();
+       }
        
     }
 
+    public removeLocalBuyProduct() 
+    {
+      localStorage.removeItem("cart_item");
+      this.calculateLocalCartProdCounts();
+   }
 
     // Removing cart from local
    public removeLocalCartProduct(data: any) 
@@ -479,7 +592,9 @@ export class EmbryoService {
        {
          this.actualizarCarrito(0,usuario.MiembroId,data.id,data.quantity, false).subscribe(
             response => 
-            {     
+            {   
+               
+
                console.log('actualizarCarrito correctamente'); 
                 
             }); 
@@ -513,10 +628,9 @@ public calculateLocalCartProdCounts() {
       let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
       return this.http.post<any>(url, body, { headers: headers })
           .pipe(tap(data =>
-          {              
-            console.error('service actualizarCarrito correctamente');            
+          {           
 
-            return true;
+            return data;
           }),
               catchError(this.handleError)
           ); 
@@ -525,26 +639,25 @@ public calculateLocalCartProdCounts() {
   private actualizarCarritoMasivo(miembroId:number, carritoCompra: any)
   {
       const url = `${host}CarritoCompra` + '/ActualizarCarritoCompraMasivo';
-      let body:any =[];
+     /*  let body:any =[];
 
-        carritoCompra.map(aux => {
+        carritoCompra.map(itemCarrito => {
          body.push({
              
-         ProyectoId: aux.id,
-         CarritoCompraId : aux.carritoid,
+         ProyectoId: itemCarrito.id,
+         CarritoCompraId : itemCarrito.carritoid,
          MiembroId: miembroId,
-         Cantidad: aux.quantity,      
-         Estado: aux.state
+         Cantidad: itemCarrito.quantity,      
+         Estado: itemCarrito.state
          })
          
-     });     
+     });      */
 
 
       let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-      return this.http.post<any>(url, body, { headers: headers })
+      return this.http.post<any>(url, carritoCompra, { headers: headers })
           .pipe(tap(data =>
-          {              
-            console.log('service actualizarCarrito correctamente');            
+          {        
 
             return true;
           }),
@@ -557,9 +670,75 @@ public calculateLocalCartProdCounts() {
 
    //Autenticacion
 
-   public goToHome() {                     
-                     this.router.navigate(['/']);
+  /*  public goToHome() {                     
+                     this.router.navigate(['/']).then(() => {
+                        window.location.reload();
+                      });
+                  } */
+
+                
+                  public goToHome() 
+                  {                     
+                     //this.router.navigate(['/']);
+
+                     this.router.navigate(['/']).then(() => {
+                        window.location.reload();
+                      });
+                      
                   }
+
+
+
+   public registrarUsuario(userName: string,password: string,apellidos: string,nombres: string, tipoDocumentoId: string,numeroDocumento: string, bancoId: number, numeroCuentaBancaria: string,numeroCuentaInterBancaria: string)
+   {
+         const url = `${host}User`;
+         const body: any = {
+            UserName: userName,
+            Apellidos: apellidos,
+            Nombres: nombres,
+            Password: password,          
+            TipoDocumentoId: tipoDocumentoId,
+            NumeroDocumento: numeroDocumento,
+            BancoId: bancoId,
+            NumeroCuentaBancaria: numeroCuentaBancaria,
+            NumeroCuentaInterBancaria: numeroCuentaInterBancaria,
+         };    
+   
+   
+         let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+         return this.http.post<any>(url, body, { headers: headers })
+            .pipe(tap(data =>
+            {           
+   
+               return data;
+            }),
+               catchError(this.handleError)
+            ); 
+   }
+
+   public contactar(nombres: string,apellidos: string,email: string, asunto: string,mensaje: string)
+   {
+      const url = `${host}Contacto` + '/Contactar';
+         const body: any = {
+            Apellidos: apellidos,
+            Nombres: nombres,
+            Email: email,          
+            Asunto: asunto,
+            Mensaje: mensaje
+         };    
+   
+   
+         let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+         return this.http.post<any>(url, body, { headers: headers })
+            .pipe(tap(data =>
+            {           
+   
+               return data;
+            }),
+               catchError(this.handleError)
+            ); 
+   }
+
 
    public validateLoginUser(userName: string, password: string)
    {
@@ -569,6 +748,8 @@ public calculateLocalCartProdCounts() {
            Password: password,
            Token: '',
          };
+      
+         this.blockUI.start("Iniciando Sesión...");
 
        let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
        return this.http.post<any>(url, body, { headers: headers })
@@ -576,7 +757,6 @@ public calculateLocalCartProdCounts() {
            {                    
                if (data.Token != null)
                {   
-                  
                   let toastOption: ToastOptions = {
                      title: "Iniciando Sesión",
                      msg: "Usuario auntenticado con exito.",
@@ -589,16 +769,20 @@ public calculateLocalCartProdCounts() {
 
                    localStorage.setItem('currentUser', JSON.stringify(data));
 
-                   let products : any;
-                   products =  JSON.parse(localStorage.getItem("cart_item")) || [];
-                   
-                   let productsLength = products.length; 
+                  
 
-                   let carrito : any;
-                   carrito = [];
+                  //  var products : any;
+                  //  products =  JSON.parse(localStorage.getItem("cart_item")) || [];
+                  
+                  var products : any;
+                  products =  this.localStorageCartProducts || [];
+
+                   let productsLength = products.length;                                    
 
                    if(data.CarritoCompra.length)
                    {
+                     var carrito : any;  
+                     carrito = [];
                        data.CarritoCompra.map(aux => {
                            carrito.push({
                                
@@ -635,20 +819,79 @@ public calculateLocalCartProdCounts() {
                        localStorage.setItem("cart_item", JSON.stringify(carrito));
 
                        this.calculateLocalCartProdCounts();
+                       
                    }
                    else //no existe carrito en el servidor
-                   {                       
+                   {     
+                     //carrito.push(products);
+
+                     /* products.map(aux => {
+                        carrito.push({
+                            
+                        ProyectoId: aux.id,
+                        CarritoCompraId: aux.carritoid, 
+                        Cantidad: aux.quantity
+                        })
+                        
+                    });   */
+
                        localStorage.setItem("cart_item", JSON.stringify(products));
                    }      
                    
-                    let carritoActualizar = carrito.filter(item=> (item.carritoid ==null)|| (item.carritoid != null && item.state) );
+                    var carritoActualizar = products.filter(item=> (item.carritoid ==null)|| (item.carritoid != null && item.state) );
                   
                    if(carritoActualizar.length>0)
-                   {
-                     this.actualizarCarritoMasivo(data.MiembroId,carritoActualizar).subscribe(
+                   {                      
+                     var body:any =[];
+
+                     for (let index = 0; index < carritoActualizar.length; index++) 
+                       {
+                        body.push(
+                           {
+                          
+                           ProyectoId: carritoActualizar[index]['id'],
+                           CarritoCompraId : carritoActualizar[index]['carritoid'],
+                           MiembroId: data.MiembroId,
+                           Cantidad: carritoActualizar[index]['quantity'],      
+                           Estado: carritoActualizar[index]['state']
+                           }) 
+                       }    
+
+                     this.actualizarCarritoMasivo(data.MiembroId,body).subscribe(
                         response => 
                         {     
-                           console.log('actualizarCarrito correctamente'); 
+                           let responseLength = response.length;
+
+                           if(responseLength>0)
+                           {   
+                              var products : any;
+                              products =  JSON.parse(localStorage.getItem("cart_item")) || [];
+
+                              let productsLength = products.length;
+
+                              if(productsLength>0)
+                              {
+                                 for(let i = 0; i < responseLength; i++) 
+                                 {
+                                     let found = products.some(function (el, index) 
+                                     {
+                                         if(el.id == response[i]['ProyectoId'])
+                                         {      
+                                          products[index]['carritoid']  = response[i]['CarritoCompraId'];
+                                         
+                                         return  true;
+                                         }
+                                     });            
+                                 }     
+                                 
+                              }
+
+                              localStorage.setItem("cart_item", JSON.stringify(products));
+
+                              console.log(response); 
+                              console.log('actualizarCarrito correctamente'); 
+                           }
+                           this.blockUI.stop();
                            this.goToHome();
                             
                         }); 
@@ -656,6 +899,7 @@ public calculateLocalCartProdCounts() {
                    } 
                    else
                    {
+                     this.blockUI.stop();
                      this.goToHome();
                    }
 
@@ -666,6 +910,7 @@ public calculateLocalCartProdCounts() {
                } 
                else 
                {
+                  this.blockUI.stop();
                   //this.alertPopup("Usuario Incorrecto");
                    // return false to indicate failed login
                    let toastOption: ToastOptions = {
@@ -686,6 +931,9 @@ public calculateLocalCartProdCounts() {
 
    LogoutUser() {
        localStorage.removeItem('currentUser');
+       localStorage.removeItem('cart_item');
+       this.calculateLocalCartProdCounts();
+       this.goToHome();
    }
 
    public isLoggedIn() 
@@ -698,13 +946,19 @@ public calculateLocalCartProdCounts() {
        
        let usuario: any = {
            Autenticado: false,
-           MiembroId: ""
+           RoleId:0,
+           MiembroId: "",
+           FullName:"",
+           UserName:""
           };   
 
        if(currentUser)  
        {            
            usuario.Autenticado=true; 
-           usuario.MiembroId=currentUser.MiembroId;             
+           usuario.MiembroId=currentUser.MiembroId;  
+           usuario.RoleId =     currentUser.RoleId;
+           usuario.FullName =     currentUser.FullName;
+           usuario.UserName =     currentUser.UserName;   
        }          
 
          return usuario;
@@ -724,6 +978,34 @@ public calculateLocalCartProdCounts() {
    };
    //
 
+   public getOperacionPagoPorMiembroIdEstado(miembroId: number, estado: string): Observable<any> 
+   {  
+      const url = `${host}OperacionPago` + '/GetOperacionPagoPorMiembroIdEstado';
+  
+      const body: any = {
+         MiembroId: miembroId,
+         Estado: estado
+      };
+  
+      return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
+    }
+
+    public getOperacionPagoPorEstado(estado: string): Observable<any> 
+    {  
+       const url = `${host}OperacionPago` + '/GetOperacionPagoPorEstado';
+   
+       const body: any = {        
+          Estado: estado
+       };
+   
+       return this.http.post<any>(url, body).catch(this.errorHandling.handleError);
+     }
+
+  
+    
+    
+  
+    
 
 
 }

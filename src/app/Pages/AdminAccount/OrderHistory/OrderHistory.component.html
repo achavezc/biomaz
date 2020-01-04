@@ -1,0 +1,46 @@
+<mat-card>
+  <h4 class="mb-3">Mis Pendientes de Confirmar Pago de Operación</h4>
+ <table mat-table [dataSource]="dataSource" class="w-100">   
+
+   <ng-container matColumnDef="ordenId">
+     <th mat-header-cell *matHeaderCellDef> Nro. de Operación </th>
+     <td mat-cell *matCellDef="let element"> {{element.ordenId}} </td>
+   </ng-container>
+
+   <ng-container matColumnDef="propietario">
+     <th mat-header-cell *matHeaderCellDef> Propietario </th>
+     <td mat-cell *matCellDef="let element"> {{element.propietario}} </td>
+   </ng-container>
+
+   <ng-container matColumnDef="fechaOperacion">
+    <th mat-header-cell *matHeaderCellDef> Fecha de Operación </th>
+    <td mat-cell *matCellDef="let element"> {{element.fechaOperacion | date:'MM/dd/yyyy'}} </td>
+  </ng-container>
+
+  
+
+   <ng-container matColumnDef="moneda">
+     <th mat-header-cell *matHeaderCellDef> Moneda </th>
+     <td mat-cell *matCellDef="let element"> {{element.moneda}} </td>
+   </ng-container>
+
+   <ng-container matColumnDef="monto">
+    <th mat-header-cell *matHeaderCellDef> Monto </th>
+    <td mat-cell *matCellDef="let element"> {{element.monto}} </td>
+  </ng-container>
+      
+   <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Acción </th>
+        <td mat-cell *matCellDef="let element">
+           <a href="javascript:void" class="accent-color" (click)="confirmarOperacion(element.ordenId)">   <i class="material-icons">
+              remove_red_eye
+           </i></a> 
+        </td>
+   </ng-container>
+   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+ </table>
+
+
+
+</mat-card>

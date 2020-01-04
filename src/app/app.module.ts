@@ -53,7 +53,7 @@ import {PortalModule} from '@angular/cdk/portal';
 import {ScrollDispatchModule} from '@angular/cdk/scrolling';
 import {CdkStepperModule} from '@angular/cdk/stepper';
 import {CdkTableModule} from '@angular/cdk/table';
-
+import { BlockUIModule } from 'ng-block-ui';
 
 
 import {
@@ -187,6 +187,7 @@ import {
     CommonModule,
     DragDropModule,
     MaterialModule
+    ,BlockUIModule.forRoot()
     
   ],
    providers: [

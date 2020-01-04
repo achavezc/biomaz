@@ -439,7 +439,8 @@ body .mat-menu-panel {
       line-height: 64px;
       padding: 0 15px;
       display: block;
-      color: #000;
+      // color: #000;
+      color: #fff;
     }
 
     .sub-menu li a {
@@ -479,9 +480,9 @@ body .mat-menu-panel {
     }
 
     .mat-mini-fab {
-      width: 35px;
-      height: 35px;
-      line-height: 35px;
+      width: 45px;
+      height: 45px;
+      line-height: 45px;
     }
 
     .log-in-user.mat-mini-fab {

@@ -3,6 +3,8 @@ import { Routes } from '@angular/router';
 import { SigninComponent } from './Signin/Signin.component';
 import { PaymentComponent } from './Payment/Payment.component';
 import { FinalReceiptComponent } from './FinalReceipt/FinalReceipt.component';
+import { PaymentProcesssedComponent } from './PaymentProcesssed/PaymentProcesssed.component';
+
 
 export const CheckoutRoutes : Routes = [
    {
@@ -21,4 +23,9 @@ export const CheckoutRoutes : Routes = [
       path: 'final-receipt',
       component: FinalReceiptComponent
    }
+    ,
+   {
+      path: 'payment-processsed',
+      component: PaymentProcesssedComponent
+   } 
 ]

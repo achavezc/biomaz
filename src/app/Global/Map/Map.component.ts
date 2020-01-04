@@ -9,6 +9,8 @@ declare var google: any;
 export class MapComponent implements OnInit {
 
    @Input() address : any;
+   @Input() lat : any;
+   @Input() lng : any;
 
    mapOptions : any = {
       lat          : 33.5362475,
@@ -31,11 +33,23 @@ export class MapComponent implements OnInit {
 }
    constructor() { }
 
-   ngOnInit() {
-      this.address = "1899 Cemetery Street,MEDFORD - 1452451 New York";
-      if(this.address) {
+   ngOnInit() 
+   {
+      if(this.address && (!this.lat || !this.lng )) 
+      {
          this.getLatitudeLongitude(this.address);
       }
+      else if(this.lat && this.lng) 
+      {
+         this.setLatitudeLongitude(this.lat,this.lng);
+      }
+      
+      //this.address = "1899 Cemetery Street,MEDFORD - 1452451 New York";
+      /* if(this.address) {
+         this.getLatitudeLongitude(this.address);
+      } */
+
+      
    }
 
    getLatitudeLongitude(address) 
@@ -61,6 +75,21 @@ export class MapComponent implements OnInit {
         this.mapOptions.lng = NewMapOptions.lng;
         this.showMap = true;
       }
+   }
+
+   setLatitudeLongitude(lat,lng) 
+   {
+      
+      let NewMapOptions = this.mapOptions
+      
+      NewMapOptions.lat = lat;
+      NewMapOptions.lng = lng;
+
+
+        this.mapOptions.lat = lat;
+        this.mapOptions.lng = lng;
+        this.showMap = true;
+      
    }
 
 }

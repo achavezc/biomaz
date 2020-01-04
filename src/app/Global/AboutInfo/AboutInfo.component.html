@@ -4,9 +4,38 @@
       <h2 class="font-bold mb-4">
         {{data?.heading}}
       </h2>
-      <h4 class="font-italic font-bold mb-4">{{data?.sub_heading}} </h4>
-      <p class="mb-4">{{data?.content}}</p>
-      <button mat-raised-button color="accent" class="button-lg">Read More</button>
+      <h4 class="font-italic font-bold mb-4">{{data?.sub_heading1}} </h4>
+      <ul class="bullets-list">
+        <li>
+          {{data?.content1a}}
+        </li>
+        <li>
+          {{data?.content1b}}
+        </li>        
+      </ul>
+      
+      <h4 class="font-italic font-bold mb-4">{{data?.sub_heading2}} </h4>
+      <ul class="bullets-list">
+        <li>
+          {{data?.content2a}}
+        </li>
+        <li>
+          {{data?.content2b}}
+        </li>    
+        <li>
+          {{data?.content2c}}
+        </li>      
+      </ul>      
+      <h4 class="font-italic font-bold mb-4">{{data?.sub_heading3}} </h4>
+      <ul class="bullets-list">
+        <li>
+          {{data?.content3a}}
+        </li>
+        <li>
+          {{data?.content3b}}
+        </li>                
+      </ul>    
+      <!-- <button mat-raised-button color="accent" class="button-lg">Read More</button> -->
     </div>
     <div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="100" fxFlex.lg="50" fxFlex.xl="50">
       <img [src]="data.image" width="700" height="700" alt="About Us Image">

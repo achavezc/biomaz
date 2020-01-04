@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { EmbryoService } from '../../Services/Embryo.service';
 
 @Component({
   selector: 'embryo-HeaderUserProfileDropdown',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderUserProfileDropdownComponent implements OnInit {
 
-   constructor() { }
+   constructor(public embryoService: EmbryoService) { }
 
    ngOnInit() {
    }

@@ -44,8 +44,7 @@ export class ProductsListComponent implements OnInit, OnDestroy {
    constructor(private route: ActivatedRoute,
                private router: Router, 
                public embryoService : EmbryoService,
-               public ProyectoService: ProyectoService,
-                       
+               public ProyectoService: ProyectoService,                       
                private changeDetectorRef: ChangeDetectorRef
                ) {
    }

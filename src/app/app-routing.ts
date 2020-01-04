@@ -9,6 +9,7 @@ import { HomeThreeComponent } from './Pages/Home/HomeThree/HomeThree.component';
 import { CartComponent } from './Pages/Cart/Cart.component';
 import { NotFoundComponent } from './Pages/NotFound/NotFound.component';
 
+
 export const AppRoutes : Routes = [
    {
       path : '',
@@ -40,7 +41,7 @@ export const AppRoutes : Routes = [
          {
             path: 'cart',
             component: CartComponent
-         },
+         },         
          {
           path: 'not-found',
           component: NotFoundComponent
@@ -64,6 +65,10 @@ export const AppRoutes : Routes = [
          {
             path: 'account',
             loadChildren: './Pages/UserAccount/UserAccount.module#UserAccountModule'
+         },
+         {
+            path: 'adminaccount',
+            loadChildren: './Pages/AdminAccount/AdminAccount.module#AdminAccountModule'
          }
       ]
    },

@@ -1,42 +1,84 @@
 <div class="inner-container bg-white section-gap-lg">
-  <div class="container">
-    <div fxLayout='row wrap' fxLayoutAlign="center center">
-      <div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="80" fxFlex.lg="70" fxFlex.xl="70">
-        <div fxLayout='row wrap' fxLayoutAlign="center center">
-          <div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="50" fxFlex.lg="50" fxFlex.xl="50">
-            <div class="form-img register-image">
+    <div class="container">
+      <div fxLayout='row wrap' fxLayoutAlign="center center">
+        <div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="80" fxFlex.lg="70" fxFlex.xl="70">
+          <div fxLayout='row wrap' fxLayoutAlign="center center">
+            <div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="50" fxFlex.lg="50" fxFlex.xl="50">
+              <div class="form-img register-image">
+              </div>
             </div>
-          </div>
-          <div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="50" fxFlex.lg="50" fxFlex.xl="50">
-            <mat-card class="register-form form-margin">
-              <h4>Enter your details</h4>
-              <form>
-                <div class="mb-4">
-                  <mat-form-field class="w-100">
-                    <input matInput type="text" placeholder="First Name" required>
-                  </mat-form-field>
-                  <mat-form-field class="w-100">
-                    <input matInput type="text" placeholder="Last Name" required>
-                  </mat-form-field>
-                  <mat-form-field class="w-100">
-                    <input matInput type="email" placeholder="Email" required>
-                  </mat-form-field>
-                  <mat-form-field class="w-100">
-                    <input matInput type="password" placeholder="Enter Password" required>
-                  </mat-form-field>
-                </div>
-                <div class="mb-4">
-                  <mat-form-field class="w-100">
-                    <input matInput type="password" placeholder="Retype Password" required>
-                  </mat-form-field>
-                </div>
-                <button color="accent" class="button-lg mb-3" mat-raised-button>Submit</button>
-              <div> Already have account? then <a class="accent-color" [routerLink]="['/session/signin']">Sign In</a></div>
-              </form>
-            </mat-card>
+            <div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="50" fxFlex.lg="50" fxFlex.xl="50">
+              <mat-card class="register-form form-margin">
+                <h4>Registro</h4>
+               
+                <form [formGroup] = "registerForm" (ngSubmit) = "submitForm()"> 
+                   <mat-form-field class="w-100">
+                        <input matInput placeholder="Email" formControlName="email">
+                     </mat-form-field>
+                     <mat-error *ngIf="registerForm.controls['email'].hasError('required') && registerForm.controls['email'].touched"> Email es requerido.</mat-error>
+                     <mat-error *ngIf="registerForm.controls['email'].hasError('pattern') && registerForm.controls['email'].touched && !registerForm.controls['email'].hasError('required')">Please ingrese un email válido.</mat-error>
+                     
+                    
+                    <mat-form-field class="w-100">
+                      <input matInput type="password" placeholder="Password" formControlName="password">
+                    </mat-form-field>
+                    <mat-error *ngIf="registerForm.controls['password'].hasError('required') && registerForm.controls['password'].touched"> Password es requerido.</mat-error>
+
+                    <mat-form-field class="w-100"> 
+                       <input matInput placeholder="Nombres" formControlName="nombres">
+                    </mat-form-field>
+                    <mat-error *ngIf="registerForm.controls['nombres'].hasError('required') && registerForm.controls['nombres'].touched"> Nombres es requerido.</mat-error>
+                    <mat-form-field class="w-100">
+                       <input matInput placeholder="Apellidos" formControlName="apellidos">
+                    </mat-form-field>
+                    <mat-error *ngIf="registerForm.controls['apellidos'].hasError('required') && registerForm.controls['apellidos'].touched"> Apellidos es requerido.</mat-error>
+                    
+                    <mat-form-field  class="w-100">
+                        <mat-label>Tipo de Documento</mat-label>
+                        <mat-select formControlName="tipoDocumento">
+                          <mat-option *ngFor="let tipoDocumento of tiposDocumento" [value]="tipoDocumento.id">
+                            {{tipoDocumento.name}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+
+                    <mat-error *ngIf="registerForm.controls['tipoDocumento'].hasError('required') && registerForm.controls['tipoDocumento'].touched"> Tipo de Documento es requerido.</mat-error>
+                    <mat-form-field class="w-100">
+                       <input matInput placeholder="Número de Documento" formControlName="numeroDocumento">
+                    </mat-form-field>
+                    <mat-error *ngIf="registerForm.controls['numeroDocumento'].hasError('required') && registerForm.controls['numeroDocumento'].touched"> Número de Documento es requerido.</mat-error>
+                    
+                    <mat-form-field  class="w-100">
+                        <mat-label>Banco</mat-label>
+                        <mat-select formControlName="banco">
+                          <mat-option *ngFor="let banco of bancos" [value]="banco.id">
+                            {{banco.name}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+
+                                      
+                     <mat-form-field class="w-100">
+                        <input matInput placeholder="Número de Cuenta Bancaria" formControlName="numeroCuentaBancaria">
+                     </mat-form-field>
+                     
+                     <mat-form-field class="w-100">
+                        <input matInput placeholder="Número de Cuenta Interbancaria" formControlName="numeroCuentaInterbancaria">
+                     </mat-form-field>
+                     
+                     
+                    <button color="accent" class="button-lg mb-3" mat-raised-button>Registrarse</button> 
+                   
+
+                              <div> ¿Ya tiene una cuenta?  <a class="accent-color" [routerLink]="['/session/signin']">Inicie Sesión</a></div>
+                              
+                </form>
+              </mat-card>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+
+

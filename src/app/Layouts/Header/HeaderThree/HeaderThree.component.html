@@ -22,7 +22,9 @@
             [count]="embryoService?.navbarWishlistProdCount" (removeWishListData)="openWishlistConfirmationPopup($event)"
             (addAllWishlistToCart)="addAllWishlistToCart($event)" (addToCart)="addToCart($event)"></embryo-WishList> -->
 
-          <embryo-HeaderUserProfileDropdown></embryo-HeaderUserProfileDropdown>
+            <div *ngIf="embryoService.isLoggedIn().Autenticado">
+              <embryo-HeaderUserProfileDropdown></embryo-HeaderUserProfileDropdown>
+            </div>
         </div>
       </div>
     </div>

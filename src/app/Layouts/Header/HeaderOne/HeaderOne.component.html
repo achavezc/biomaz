@@ -1,73 +1,51 @@
-<mat-toolbar color="primary" class="header-v1">
-    <mat-toolbar-row class="header-v1-top">
-      <div class="container">
-        <div fxLayout="row wrap" fxLayout="center center">
-          <div fxHide.xs="true" fxHide.sm="true" fxHide.md="true" fxFlex.md="33%" fxFlex.lg="33%" fxFlex.xl="33%">
-            <div class="list-flex">
-              <!-- <embryo-LanguageDropDown class="mr-3"></embryo-LanguageDropDown>
-              <embryo-CurrencyDropDown [selectedValue]="embryoService?.currency" (selectedCurrency)="selectedCurrency($event)"></embryo-CurrencyDropDown> -->
+<mat-toolbar color="primary" class="header-v2">
+  <mat-toolbar-row class="header-v2-top">
+    <div class="container">
+      <div fxLayout="row wrap">
+        <div class="logo-site" fxFlex.xs="50" fxFlex.sm="50" fxFlex.md="35" fxFlex.lg="25%" fxFlex.xl="25%">
+         <embryo-AppLogo></embryo-AppLogo>
+        </div>
+        <div fxFlex.sm="60" fxHide.xs="true" fxHide.sm="true" fxFlex.md="40" fxFlex.sm.hdie fxFlex.lg="60%" fxFlex.xl="60%" class="align-center">
+           
+          <div class="container">
+            <div class="header-v2-bottom-inner">
+              <embryo-Menu></embryo-Menu>
+         
             </div>
           </div>
-          <div class="logo-site" fxFlex.xs="40" fxFlex.sm="40" fxFlex.md="50" fxFlex.lg="33%" fxFlex.xl="33%">
-            
-           <embryo-AppLogo></embryo-AppLogo>
+        </div>
+        <div fxFlex.xs="50" fxFlex.sm="50" fxFlex.md="25" fxFlex.lg="15%" fxFlex.xl="15%">
+      <span fxFlex></span>
+          <div class="list-flex user-tool">
+            <embryo-HeaderCart [currency]="embryoService?.currency" [cartProducts]="embryoService?.localStorageCartProducts" [count]="embryoService?.navbarCartCount" (removeProductData)="openConfirmationPopup($event)"></embryo-HeaderCart>
+
+            <!-- <embryo-WishList [currency]="embryoService?.currency" [wishListProducts]="embryoService?.localStorageWishlist" [count]="embryoService?.navbarWishlistProdCount" (removeWishListData)="openWishlistConfirmationPopup($event)" (addAllWishlistToCart)="addAllWishlistToCart($event)" (addToCart)="addToCart($event)"></embryo-WishList> -->
+            <div *ngIf="embryoService.isLoggedIn().Autenticado ">
+             <embryo-HeaderUserProfileDropdown></embryo-HeaderUserProfileDropdown>
+            </div>
           </div>
-          <div fxFlex.xs="60" fxFlex.sm="60" fxFlex.md="50" fxFlex.lg="33%" fxFlex.xl="33%">
-            <span fxFlex></span>
-            <div class="list-flex user-tool">
-              <embryo-HeaderCart [currency]="embryoService?.currency" [cartProducts]="embryoService?.localStorageCartProducts" [count]="embryoService?.navbarCartCount" (removeProductData)="openConfirmationPopup($event)"></embryo-HeaderCart>
+        </div>
+      </div>
+    </div>
+  </mat-toolbar-row>
   
-              <!-- <embryo-WishList [currency]="embryoService?.currency" [wishListProducts]="embryoService?.localStorageWishlist" [count]="embryoService?.navbarWishlistProdCount" (removeWishListData)="openWishlistConfirmationPopup($event)" (addAllWishlistToCart)="addAllWishlistToCart($event)" (addToCart)="addToCart($event)"></embryo-WishList> -->
-              
-              <embryo-HeaderUserProfileDropdown></embryo-HeaderUserProfileDropdown>
-            </div>
-          </div>
-        </div>
-      </div>
-    </mat-toolbar-row>
-    <mat-toolbar-row class="header-v1-bottom main-menu-wrap">
-      <div class="container">
-        <div class="header-v1-bottom-inner">
-          <embryo-Menu></embryo-Menu>
-         <!--  <div class="search-box">
-            <button type="button" mat-fab (click)="toggleSearch()">
-              <i class="material-icons notranslate">
-                search
-              </i>
-            </button>
-          </div> -->
-     <!--      <div class="search-form">
-            <form>
-              <input type="text" placeholder="Search and hit enter">
-              <button type="button" mat-fab class="close-btn" (click)="toggleSearch()">
-                <i class="material-icons">
-                  close
-                </i>
-              </button>
-            </form>
-          </div> -->
-          <button class="responsive-toggle" mat-icon-button (click)="toggleSidebar()">
-            <i class="material-icons">menu</i>
-          </button>
-        </div>
-      </div>
-    </mat-toolbar-row>
-    <mat-toolbar-row class="responsive-bar relative">
+  
+  <mat-toolbar-row class="responsive-bar relative">
         <div class="container">
           <div fxLayoutAlign="space-between">
          
             <button class="responsive-toggle" mat-icon-button (click)="toggleSidebar()">
               <i class="material-icons">menu</i>
             </button>
-            <div>
-           <!--      <div class="search-box-bar">
+            <!-- <div>
+                <div class="search-box-bar">
                   <button type="button" mat-mini-fab (click)="toggleSearch()">
                     <i class="material-icons notranslate">
                       search
                     </i>
                   </button>
-                </div> -->
-   <!--              <div class="search-form">
+                </div>
+                <div class="search-form">
                   <form>
                     <input type="text" placeholder="Search and hit enter">
                     <button type="button" mat-fab class="close-btn" (click)="toggleSearch()">
@@ -76,12 +54,10 @@
                       </i>
                     </button>
                   </form>
-                </div> -->
-              </div>
+                </div>
+              </div> -->
           </div>
         </div>
       </mat-toolbar-row>
-  </mat-toolbar>
-  <embryo-FixedHeader></embryo-FixedHeader>
-  
-  
+</mat-toolbar>
+<embryo-FixedHeader></embryo-FixedHeader>

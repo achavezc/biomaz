@@ -1,0 +1,37 @@
+
+<embryo-PageTitle heading="Registro Satisfactorio"></embryo-PageTitle>
+
+<div class="inner-container">
+  <div class="bg-white final-receipt-page section-gap">
+    <div class="final-receipt">
+      <div class="container">
+        <div fxLayout="row wrap" fxLayoutAlign="center center" class="col-gap">
+          <div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="60" fxFlex.lg="60" fxFlex.xl="60">
+            <mat-card class="pt-0">
+              <div id="payment-receipt">
+              <div class="text-center bg-grey p-5 mat-card-pad-none">
+                <h1>Gracias</h1>
+                <h5 class="mb-4">El Cliente se registró satisfactoriamente. </h5>
+                <!-- <h6 class="mb-4">Transaction ID:267676GHERT105467</h6> -->
+                <img src="assets/images/checked.png" width="64" height="64" alt="Success">
+              </div>
+             
+              </div>
+              
+
+            <hr class="spacer">
+            <div> <span fxFlex></span>           
+              <!-- <button mat-raised-button color="accent" class="button-lg" (click)="procesarOrden()">Procesar Orden</button> -->
+              <button mat-raised-button color="accent" class="button-lg" [routerLink]="['/session/signin']">Inicie Sesión</button>
+            </div>
+            
+        
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

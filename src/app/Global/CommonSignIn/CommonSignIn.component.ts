@@ -21,7 +21,8 @@ export class CommonSignInComponent implements OnInit {
       })
    }
 
-   public submitForm() {
+   public submitForm() 
+   {
       if(this.commonSignInForm.valid)
       {
          console.log(this.commonSignInForm.controls['email'])

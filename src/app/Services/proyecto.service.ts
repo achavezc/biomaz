@@ -7,6 +7,8 @@ import {ErrorHandling} from '../shared/utils/error-handling';
 @Injectable()
 export class ProyectoService {
   private url = `${host}Proyecto`;
+  private url2 = `${host}ProyectoMiembro`;
+
 
   constructor(private http: HttpClient,
               private errorHandling: ErrorHandling) {
@@ -30,5 +32,18 @@ export class ProyectoService {
     const url = `${this.url}/GetProyectoPorId/`+ id;
     return this.http.get(url).catch(this.errorHandling.handleError);
   }
+  
+  getProyectoMiembroPorId(id: string): Observable<any> {
+    const url = `${this.url2}/GetProyectoConsultaPorId/`+ id;
+    return this.http.get(url).catch(this.errorHandling.handleError);
+  }
+
+  public getProyectosPorMiembro(miembroId: number): Observable<any> 
+   {  
+  
+      const url = `${host}ProyectoMiembro/GetListaProyectosPorMiembroId/`+ miembroId;
+      return this.http.get(url).catch(this.errorHandling.handleError);
+
+    }
 
 }

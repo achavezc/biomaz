@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule}    from '@angular/forms';
 import { ProductsRoutes } from './Products.routing';
 import { DetailPageModule } from '../../Pages/Products/DetailPage/DetailPage.module';
+import { DetailPageMiembroModule } from '../../Pages/Products/DetailPageMiembro/DetailPageMiembro.module';
 import { ProductListModule } from '../../Pages/Products/ProductsList/ProductList.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { GlobalModule } from '../../Global/Global.module';
@@ -16,6 +17,7 @@ import { GlobalModule } from '../../Global/Global.module';
 		FormsModule,
 		ProductListModule,
 		DetailPageModule,
+		DetailPageMiembroModule,
 		GlobalModule
 	],
 	declarations: [

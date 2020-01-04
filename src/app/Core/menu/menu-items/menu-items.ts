@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-
+import { EmbryoService } from '../../../Services/Embryo.service';
 /*
  * Menu interface
  */
@@ -11,63 +11,33 @@ export interface Menu {
 	children?: Menu[];
 }
 
-const HeaderOneItems= [
+var HeaderOneItems= [
   {
     state: "home",
     name: "PROYECTOS",
     type: "link",
     icon: "home"
+  }, 
+  {  
+    state: 'adminaccount/profile', 
+    name: 'ADMIN',
+    type: 'link',
+    icon: 'arrow_right_alt',
   },
-  
-  {
-  state: "pages",
-  name: "PAGES",
-  type: "sub",
-  icon: "pages",
-  children: [
-     {  state: 'about', 
-        name: 'ABOUT',
-        type: 'link',
-        icon: 'arrow_right_alt',
-     },
-     {  state: 'term-condition', 
-        name: 'TERM AND CONDITION',
-        type: 'link',
-        icon: 'arrow_right_alt',
-     },
-     {  
-        state: 'privacy-policy', 
-        name: 'PRIVACY POLICY',
-        type: 'link',
-        icon: 'arrow_right_alt',
-      },
-      {  
-        state: 'blogs/detail', 
-        name: 'BLOG DETAIL',
-        type: 'link',
-        icon: 'arrow_right_alt',
-      },
-      {  
-        state: 'faq', 
-        name: 'FAQ',
-        type: 'link',
-        icon: 'arrow_right_alt',
-      },
-      {  
-        state: 'not-found', 
-        name: '404 PAGE',
-        type: 'link',
-        icon: 'arrow_right_alt',
-      },
-      {  
-         state: 'account/profile', 
-         name: 'User Profile',
-         type: 'link',
-         icon: 'arrow_right_alt',
-       }
-    ]
-},
-{
+  , 
+  {  
+    state: 'session/signin', 
+    name: 'INICIAR SESION',
+    type: 'link',
+    icon: 'arrow_right_alt',
+  }, 
+  {  
+    state: 'session/signup', 
+    name: 'REGISTRO',
+    type: 'link',
+    icon: 'arrow_right_alt',
+  } , 
+/* {
     state:'session',
     name:"SESSION",
     type:"sub",
@@ -98,17 +68,23 @@ const HeaderOneItems= [
             icon: 'arrow_right_alt',
         }
     ]
-  },
+  }, */
   {
     state:'contact',
-    name:"CONTACT US",
+    name:"CONTACTANOS",
     type:"link",
     icon: 'perm_contact_calendar'
+  },
+  {
+    state:'about',
+    name:"ABOUT",
+    type:"link",
+    icon: 'arrow_right_alt'
   }
 ];
 
 const FooterOneItems= [
-  {
+ /*  {
      state:'',
      name:"ABOUT",
      type:"sub",
@@ -137,47 +113,16 @@ const FooterOneItems= [
         name: 'FAQ',
         type: 'link',
         icon: 'arrow_right_alt',
-       },
+       }, 
        {  
          state:'contact',
-         name:"CONTACT US",
+         name:"CONTÁCTANOS",
          type:"link",
          icon: 'perm_contact_calendar',
        }
     ]
-  }, 
-  {
-    state:'',
-    name:"SESSION",
-    type:"sub",
-    icon: '',
-    children: [
-        {  
-        state: 'session/signin', 
-        name: 'SIGN IN',
-        type: 'link',
-        icon: 'arrow_right_alt',
-        },
-        {  
-            state: 'session/signup', 
-            name: 'REGISTER',
-            type: 'link',
-            icon: 'arrow_right_alt',
-        },
-        {  
-            state: 'session/forgot-password', 
-            name: 'FORGET PASSWORD',
-            type: 'link',
-            icon: 'arrow_right_alt',
-        },
-        {  
-            state: 'session/thank-you', 
-            name: 'THANK YOU',
-            type: 'link',
-            icon: 'arrow_right_alt',
-        }
-    ]
-  },
+  },  */
+ 
   
   {
     state:'',
@@ -186,26 +131,20 @@ const FooterOneItems= [
     icon: '',
     children: [
       {
-        state: 'https://www.facebook.com/', 
+        state: 'https://www.facebook.com/beequeencoin/', 
         name: 'Facebook',
         type: 'social_link',
         icon: 'arrow_right_alt',
       },
       {
-        state: 'https://twitter.com/', 
-        name: 'Twitter',
+        state: 'https://www.instagram.com/beequeencoin', 
+        name: 'Instagram',
         type: 'social_link',
         icon: 'arrow_right_alt',
       },
       {
         state: 'https://www.youtube.com/', 
         name: 'Youtube',
-        type: 'social_link',
-        icon: 'arrow_right_alt',
-      },
-      {
-        state: 'https://plus.google.com', 
-        name: 'Google Plus',
         type: 'social_link',
         icon: 'arrow_right_alt',
       }
@@ -217,10 +156,32 @@ const FooterOneItems= [
 @Injectable()
 export class MenuItems {
 
+  constructor(public embryoService : EmbryoService) { }
+
    /*
     * Get all header menu
     */
-   getMainMenu(): Menu[] {
+   getMainMenu(): Menu[]
+    {
+      let usuario = this.embryoService.isLoggedIn();     
+
+       if(!usuario.Autenticado)
+       {
+          HeaderOneItems = HeaderOneItems.filter(obj => obj.name !== 'ADMIN');   
+         
+       }
+       else
+       {        
+        
+        HeaderOneItems = HeaderOneItems.filter(obj => obj.name !== 'INICIAR SESION' && obj.name !== 'REGISTRO');
+
+        if(usuario.RoleId!=1)
+        {
+          HeaderOneItems = HeaderOneItems.filter(obj => obj.name !== 'ADMIN');            
+        }
+
+
+       }
       return HeaderOneItems;
    }
 

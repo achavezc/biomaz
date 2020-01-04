@@ -1,0 +1,203 @@
+<div class="product-detail-page section-gap bg-white" *ngIf="detailData">
+  <div class="container">
+    <div fxLayout='row wrap' fxLayoutAlign="center center" class="col-gap">
+      <div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md=90 fxFlex.lg="80" fxFlex.xl="90">
+        <div fxLayout='row wrap' class="col-gap position-relative">
+          <div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md=50 fxFlex.lg="50" fxFlex.xl="50">
+            <div fxLayout='row wrap'>
+              <div fxFlex.xs="15" fxFlex.sm="15" fxFlex.md="15" fxFlex.lg="15" fxFlex.xl="15">
+                <div class="product-detail-image-gallery pr-4">
+                  <mat-grid-list cols="1" rowHeight="1:1" gutterSize="20px">
+                    <mat-grid-tile *ngFor="let img of detailData?.image_gallery; let i=index">
+                      <div class="product-image-gallery-item">
+                        <a id="{{i}}_img" class="p-link" [ngClass]="{ 'border-active': i === 0 }" href="javascript:void(0)" (mouseenter)="getImagePath(img, i)">
+                          <img [src]="img" alt="">
+                        </a>
+                      </div>
+                    </mat-grid-tile>
+                  </mat-grid-list>
+                </div>
+              </div>
+              <div fxFlex.xs="85" fxFlex.sm="85" fxFlex.md="85" fxFlex.lg="85" fxFlex.xl="85" class="relative" *ngIf="mainImgPath">
+                <embryo-ImgZoom 
+                [imgSrc]="mainImgPath" 
+                    imgStyle="width:auto; height:auto;" 
+                    resultStyle="background-repeat: no-repeat; z-index: 2; position:absolute;
+                                   -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+                                    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); top: 0;left: 100%;"
+                    lensStyle="width:100px; height:100px"
+                    containerStyle="">
+                </embryo-ImgZoom>
+              </div>
+            </div>
+          </div>
+          <div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md=50 fxFlex.lg="50" fxFlex.xl="50">
+            <div class="product-detail-content">
+              <a href="javascript:void(0)" [routerLink]="['/']">Back to Shop</a>
+              <h3>{{detailData?.name}}</h3>
+              <div class="product-detail-price">
+                <h4 class="accent-color">{{totalPrice | currency:currency}} </h4>
+              </div>
+              <ul class="no-style mb-4">
+                <li>
+                  <span class="font-medium"> Especie </span>: 
+                    <span *ngIf="detailData?.availablity">{{detailData?.especie}}</span>
+                </li>
+                <li>
+                  <span class="font-medium">Tipo </span>: {{detailData?.tipo}}
+                </li>
+                <li>
+                  <span class="font-medium">Formato 1 </span>: {{detailData?.formato1}}
+                </li>
+                <li>
+                  <span class="font-medium">Formato 2 </span>: {{detailData?.formato2}}
+                </li>
+                <li>
+                  <span class="font-medium">Cantidad Estimada </span>: {{detailData?.cantidadEstimada}}
+                </li>
+              </ul>
+              <div class="short-des">
+                <p>{{detailData?.description}}
+                </p>
+              </div>
+              
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>   
+    <mat-card>
+        <h4>Información de Ubicación</h4>
+        <ul class="no-style mb-4">
+            <li>
+              <span class="font-medium"> Departamento </span>: 
+                <span *ngIf="detailData?.availablity">{{detailData?.departamento}}</span>
+            </li>
+            <li>
+              <span class="font-medium">Provincia </span>: {{detailData?.provincia}}
+            </li>
+            <li>
+              <span class="font-medium">Distrito </span>: {{detailData?.distrito}}
+            </li>
+            <li>
+              <span class="font-medium">Caserio / Pueblo </span>: {{detailData?.caserioPueblo}}
+            </li>
+            <li>
+              <span class="font-medium">Dirección </span>: {{detailData?.direccion}}
+            </li>
+            <li>
+              <span class="font-medium">coordenadasLatitud </span>: {{detailData?.coordenadasLatitud}}
+            </li>
+            <li>
+              <span class="font-medium">coordenadasLongitud </span>: {{detailData?.coordenadasLongitud}}
+            </li>
+          </ul>
+      <div class="contact-map">
+          <embryo-Map  [lat]="detailData?.coordenadasLatitud" [lng]="detailData?.coordenadasLongitud"></embryo-Map>
+      </div>
+      </mat-card> 
+        <br>      
+        <mat-card>
+            <h4>Información de Personal Gestor</h4>
+        <ul class="no-style mb-4">
+            <li>
+              <span class="font-medium"> Apellidos </span>: 
+                <span *ngIf="detailData?.availablity">{{detailData?.apellidosGestor}}</span>
+            </li>
+            <li>
+              <span class="font-medium">Nombres </span>: {{detailData?.nombresGestor}}
+            </li>
+            <li>
+              <span class="font-medium">Tipo Documento </span>: {{detailData?.tipoDocumentoGestor}}
+            </li>
+            <li>
+              <span class="font-medium">Nro. Documento </span>: {{detailData?.numeroDocumentoGestor}}
+            </li>       
+          </ul>
+        </mat-card>
+          <br>
+
+          <mat-card>
+              <h4>Información de Personal Cuidador</h4>
+
+          <ul class="no-style mb-4">
+              <li>
+                <span class="font-medium"> Apellidos </span>: 
+                  <span *ngIf="detailData?.availablity">{{detailData?.apellidosCuidador}}</span>
+              </li>
+              <li>
+                <span class="font-medium">Nombres </span>: {{detailData?.nombresCuidador}}
+              </li>
+              <li>
+                <span class="font-medium">Tipo Documento </span>: {{detailData?.tipoDocumentoCuidador}}
+              </li>
+              <li>
+                <span class="font-medium">Nro. Documento </span>: {{detailData?.numeroDocumentoCuidador}}
+              </li>
+              <li>
+                  <span class="font-medium"> Sexo </span>: 
+                    <span *ngIf="detailData?.availablity">{{detailData?.sexoCuidador}}</span>
+                </li>
+                <li>
+                  <span class="font-medium">Fecha Nacimiento </span>: {{detailData?.fechaNacimientoCuidador}}
+                </li>
+                <li>
+                  <span class="font-medium">Estado Civil </span>: {{detailData?.estadoCivilCuidador}}
+                </li>
+                <li>
+                  <span class="font-medium">Grado de Instrucción </span>: {{detailData?.gradoInstruccionCuidador}}
+                </li>
+
+                <li>
+                    <span class="font-medium">Hijos </span>: {{detailData?.numeroHijosCuidador}}
+                  </li>
+                  <li>
+                      <span class="font-medium">Dependientes </span>: {{detailData?.numeroDependientesCuidador}}
+                    </li>
+            </ul>
+          </mat-card>
+          <br>
+
+          <mat-card>
+              <h4>Productos</h4>
+
+              <table mat-table [dataSource]="dataSource" class="w-100">   
+
+                <ng-container matColumnDef="nombre">
+                  <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                  <td mat-cell *matCellDef="let element"> {{element.Nombre}} </td>
+                </ng-container>
+             
+                <ng-container matColumnDef="cantidad">
+                  <th mat-header-cell *matHeaderCellDef> Cantidad </th>
+                  <td mat-cell *matCellDef="let element"> {{element.Cantidad}} </td>
+                </ng-container>
+             
+                <ng-container matColumnDef="unidadMedida">
+                 <th mat-header-cell *matHeaderCellDef> Unidad de Medida </th>
+                 <td mat-cell *matCellDef="let element"> {{element.UnidadMedida}} </td>
+               </ng-container>
+             
+              
+
+                <ng-container matColumnDef="moneda">
+                  <th mat-header-cell *matHeaderCellDef> Moneda </th>
+                  <td mat-cell *matCellDef="let element"> {{element.Moneda}} </td>
+                </ng-container>
+             
+                <ng-container matColumnDef="precio">
+                  <th mat-header-cell *matHeaderCellDef> Precio </th>
+                  <td mat-cell *matCellDef="let element"> {{element.Precio}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="total">
+                 <th mat-header-cell *matHeaderCellDef> Valor Mercado </th>
+                 <td mat-cell *matCellDef="let element" > {{element.Total}} </td>
+               </ng-container> 
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+          </mat-card>
+  </div>
+</div>

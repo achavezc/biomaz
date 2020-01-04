@@ -1,72 +1,88 @@
 
 <embryo-PageTitle heading="Orden" ></embryo-PageTitle>
-
+<!-- <block-ui> -->
 <div class="inner-container bg-white cart-page section-gap" *ngIf="(embryoService.localStorageCartProducts && embryoService.localStorageCartProducts.length>0); else elseBlock">
   <div class="container">
-    <div class="cart-wrapper">
-      <div class="cart-shop-list mb-5 text-center  card-shadow">
-        <div fxLayout='row wrap' fxLayoutAlign="start center" class="cart-item" *ngFor="let product of embryoService.localStorageCartProducts">
-          <div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="10" fxFlex.lg="20" fxFlex.xl="20" class="cart-product-image">
-            <div class="cart-item-thumb">
-              <a href="javascript:void(0)" class="p-link">
-                <img width="626" height="800" class="card-shadow" [src]="product.image" alt="cart image">
-              </a>
-            </div>
-          </div>
-          <div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="90" fxFlex.lg="80" fxFlex.xl="80">
-            <div fxLayout='row wrap' fxLayoutAlign="center center" class="cart-product-info">
-              <div fxFlex.xs="100" fxFlex.sm="40" fxFlex.md="30" fxFlex.lg="40" fxFlex.xl="40">
-                <h5>{{product?.name}}</h5>
-                <!-- <p class="mb-0">Delivery in 3-4 days | Free</p>
-                <p> 10 Days Replacement Policy</p> -->
-              </div>
-              <div fxFlex.xs="50" fxFlex.sm="20" fxFlex.md="20" fxFlex.lg="20" fxFlex.xl="20">
-                <mat-form-field class="w-100">
-                  <input  matInput type="number" #quantity [value]="getQuantityValue(product)" min="1" max="10" placeholder="Cantidad">
-                  <h5>{{product?.quantity}}</h5>
-                </mat-form-field>
-              </div>
-              <div fxFlex.xs="50" fxFlex.sm="40" fxFlex.md="30" fxFlex.lg="20" fxFlex.xl="20">
-                <div class="cart-item-price">
-                  <!-- <h4>{{ calculateProductSinglePrice(product, quantity.value) | currency:embryoService?.currency}}</h4> -->
-                  <h6>Precio</h6>
+    <input type="hidden" id="hide" value="{{miembroId}}" /> 
+    <mat-accordion class="mat-ex-wrapper" [multi]="true">
+        <mat-expansion-panel [expanded]="true" hideToggle>
+            <mat-expansion-panel-header>
+              <h4 class="mb-0">Detalle de Orden</h4>
+            </mat-expansion-panel-header>
+            <div class="cart-wrapper">
+              <div class="cart-shop-list mb-5 text-center  card-shadow">
+                <div fxLayout="row wrap" fxLayoutAlign="start center" class="col-gap" *ngFor="let product of embryoService.localStorageCartProducts">
+                  <div fxFlex.xs="20" fxFlex.sm="25" fxFlex.md="25" fxFlex.lg="25" fxFlex.xl="25">
+                    <img width="100" [src]="product?.image" alt="cart Image">
+                  </div>
+                  <div fxFlex.xs="30" fxFlex.sm="25" fxFlex.md="25" fxFlex.lg="25" fxFlex.xl="25">
+                    <h6>Proyecto</h6>
+                    <p class="font-bold">{{product?.name}}</p>
+                  </div>
+                  <div fxFlex.xs="25" fxFlex.sm="25" fxFlex.md="25" fxFlex.lg="25" fxFlex.xl="25">
+                    <h6>Cantidad</h6>
+                    <p *ngIf="product?.quantity">{{product?.quantity}}</p>
+                    <p *ngIf="!product?.quantity">1</p>
+                  </div>
+                  <div fxFlex.xs="25" fxFlex.sm="25" fxFlex.md="25" fxFlex.lg="25" fxFlex.xl="25">
+                    <h6>Precio</h6>
                     <p>{{ calculateProductSinglePrice(product, product?.quantity) | currency:embryoService?.currency}}</p>
+                  </div>
                 </div>
               </div>
-              
+              <div class="cart-total" fxLayout='row wrap' fxLayoutAlign="end">
+                <div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="40" fxFlex.lg="40" fxFlex.xl="40">
+                  <div>
+                    <!-- <p>Subtotal</p><span fxFlex></span> {{calculateTotalPrice() | currency:embryoService?.currency}} -->
+                  </div>
+                <!--  <div>
+                    <p>Shipping</p><span fxFlex></span> {{embryoService.shipping | currency:embryoService?.currency}}
+                  </div>
+                  <div>
+                    <p>Tax(GST)</p><span fxFlex></span> {{embryoService.tax | currency:embryoService?.currency}}
+                  </div> -->
+                  <hr class="spacer">
+                  <div class="mb-4">
+                    <h4>Total</h4><span fxFlex></span>
+                    <h4> {{getTotalPrice() | currency:embryoService?.currency}}</h4>
+                  </div>
+                  
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="cart-total" fxLayout='row wrap' fxLayoutAlign="end">
-        <div fxFlex.xs="100" fxFlex.sm="100" fxFlex.md="40" fxFlex.lg="40" fxFlex.xl="40">
-          <div>
-            <p>Subtotal</p><span fxFlex></span> {{calculateTotalPrice() | currency:embryoService?.currency}}
-          </div>
-         <!--  <div>
-            <p>Shipping</p><span fxFlex></span> {{embryoService.shipping | currency:embryoService?.currency}}
-          </div>
-          <div>
-            <p>Tax(GST)</p><span fxFlex></span> {{embryoService.tax | currency:embryoService?.currency}}
-          </div> -->
-          <hr class="spacer">
-          <div class="mb-4">
-            <h4>Total</h4><span fxFlex></span>
-            <h4> {{getTotalPrice() | currency:embryoService?.currency}}</h4>
-          </div>
-          <div> <span fxFlex></span><button mat-raised-button color="accent" class="button-lg" (click)="procesarOrden()">Procesar Orden</button></div>
-        </div>
-      </div>
+          </mat-expansion-panel>
+          <mat-expansion-panel [expanded]="true" hideToggle>
+              <mat-expansion-panel-header>
+                <h4 class="mb-0">Método de Pago</h4>
+              </mat-expansion-panel-header>
+
+              
+              <div class="card-radio">                     
+                  <mat-radio-group>
+                    <mat-radio-button *ngFor="let medioPago of mediosPago" [value]="medioPago?.id"  [checked]="medioPago?.checked" [disabled]="medioPago?.disabled" >
+                      <span class="font-bold"> {{medioPago?.content}}</span>
+                      <p class="text-muted">{{medioPago?.name}}</p>
+                    </mat-radio-button>
+                  </mat-radio-group>
+                
+              </div>
+            </mat-expansion-panel>
+    </mat-accordion>
+    <hr class="spacer">
+    <div> <span fxFlex></span>
+      <!-- <button mat-raised-button color="accent" class="button-lg" (click)="procesarOrden()">Procesar Orden</button> -->
+      <button mat-raised-button color="accent" class="button-lg" id="buyButton">Procesar Orden</button>
     </div>
   </div>
-</div>
 
+</div>
+<!-- </block-ui> -->
 <ng-template #elseBlock>
   <div class="section-gap-lg text-center">
     <div class="mb-4">
     <img src="assets/images/empty-cart.png" height="128" width="128" alt="cart-empty">
   </div>
     <h4> Tú Carrito de Compras está vacio.</h4>
-    <a href="javascript:void(0)" class="primary-color" [routerLink]="['/']">Go for Shopping</a>
+    <a href="javascript:void(0)" class="primary-color" [routerLink]="['/']">Ir a Proyectos</a>
   </div>
 </ng-template>

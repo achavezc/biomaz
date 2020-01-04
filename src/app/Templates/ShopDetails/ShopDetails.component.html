@@ -98,9 +98,15 @@
             <li>
               <span class="font-medium">Dirección </span>: {{detailData?.direccion}}
             </li>
+            <li>
+              <span class="font-medium">coordenadasLatitud </span>: {{detailData?.coordenadasLatitud}}
+            </li>
+            <li>
+              <span class="font-medium">coordenadasLongitud </span>: {{detailData?.coordenadasLongitud}}
+            </li>
           </ul>
       <div class="contact-map">
-          <embryo-Map [address]="contactInfo?.address | async"></embryo-Map>
+          <embryo-Map  [lat]="detailData?.coordenadasLatitud" [lng]="detailData?.coordenadasLongitud"></embryo-Map>
       </div>
 
       </mat-card>
